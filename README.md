@@ -19,14 +19,14 @@ So far, AutoGUI is developed, tested and routinely used on a server running open
 - First of all, you need to have a working installation of autoPROC (https://www.globalphasing.com/autoproc/) and the command "process" should be in your path.
 - If you have autoPROC, you certainly also have CCP4i (https://www.ccp4.ac.uk) installed. Just make sure that it is in your path.
 - The same is true for ImageMagick (https://imagemagick.org).
-- You also need to have ADXV (https://www.scripps.edu/tainer/arvai/adxv.html) installed, although it does not necessarily have to be in your path as you will have to define its location in the 'autogui.cfg' configuration file. (Reason: On some systems, the command for it is written with a capital A on others not. I might include an automatic check for this at a later point.)
+- You also need to have Adxv (https://www.scripps.edu/tainer/arvai/adxv.html) installed, although it does not necessarily have to be in your path as you will have to define its location in the 'autogui.cfg' configuration file. (Reason: On some systems, the command for it is written with a capital A on others not. I might include an automatic check for this at a later point.)
 - It is highly recommended to use a dedicated Conda environment for setting up AutoGUI. It is in that case required to have Miniforge (https://www.conda-forge.org) or Miniconda/Anaconda (https://www.anaconda.org) installed on your system.
 - AutoGUI uses Python3.X (tested so far only up to 3.9) and additional required modules are Pillow, Psutil and PySimpleGUI (version 4.70.1)
 
 ## How can I set it up? 
 ### Preparation
 1. Extract the AutoGUI files to a folder on your system where you want it to be located.  
-2. First check if all external programs (autoPROC, CCP4i, ImagMagic and ADXV) are installed and in the path. (ADXV does not need to be in the path, the location of it is set in the next step.)
+2. First check if all external programs (autoPROC, CCP4i, ImagMagic and Adxv) are installed and in the path. (Adxv does not need to be in the path, the location of it is set in the next step.)
 3. Adjust the at least the parameters marked as required (and ideally also the rest) in 'autogui.cfg' to match your setup.
 ### Automatic setup
 The easiest and absolutely recommended way from this point on is to use the provided setup script 'autogui_conda_setup.sh'. This automates the rest of the setup process but requires Conda to be installed. Just make the script executable by typing `chmod +x autogui_conda_setup.sh` and let it run. After successful setup, a file called 'autogui' will be created and you will be offered to add AutoGUI to your path for being able to execute it from anywhere. Done! :thumbsup:
