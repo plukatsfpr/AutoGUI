@@ -10,7 +10,7 @@
 #   1.  Checks if the required software is installed. (Currently conda, autoPROC (a.k.a. process), ccp4i, screen, ImageMagick (a.k.a. magick)) The program list is found in "dependencies.txt".
 #   2.  Some paths have to be set before within 'autogui.cfg'. (Currently path to Adxv, a browser, a pdf viewer).
 #   3.  A conda environment will be created 
-#   4.  The required non-standard python modules listed in "requirements.txt" will be installed (Currently Pillow, psutil, PySimpleGUI 4.70.1)
+#   4.  The required non-standard python modules listed in "requirements.txt" will be installed (Currently Pillow, psutil, FreeSimpleGUI)
 #   5.  A bash script "autogui" will be created that executes autogui.py from within the created conda environment
 #   6.  The folder containing the "autogui" script can be added to the path (optional) to make sure that you can start dataprocessing anywhere typing "autogui" on the terminal. 
 #       If you can't start AutoGUI, there might have been problems with adding it to your path. You will in that case have to add it manually.

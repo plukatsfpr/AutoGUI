@@ -20,7 +20,7 @@
 version = 'v.20250301'                             # current version
 
 # Dependencies required:
-# PySimpleGui 4.70.1 (pip install pysimplegui==4.70.1)
+# FreeSimpleGUI (pip install FreeSimpleGUI)
 # psutil (pip install psutil)
 # Working installation of GPhL AutoPROC (www.globalphasing.com/autoproc/)
 # Working installation of CCP4i (www.ccp4.ac.uk)
@@ -44,7 +44,7 @@ light_theme_color = 'white'
 
 
 
-import PySimpleGUI as sg
+import FreeSimpleGUI as sg
 import time
 import subprocess
 import os

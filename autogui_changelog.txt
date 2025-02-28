@@ -2,6 +2,7 @@
 
 v.20250301
 - First version to be uploaded to GitHub
+- Required to switch from PySimpleGUI to FreeSimpleGUI
 - Minor bugfixes
 - Added License information for GPL 3 (or later) 
 

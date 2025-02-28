@@ -20,7 +20,7 @@
 version = 'v.20250301'                             # current version
 
 # Dependencies required:
-# PySimpleGui 4.70.1 (pip install pysimplegui==4.70.1)
+# FreeSimpleGUI (pip install FreeSimpleGUI)
 # psutil (pip install psutil)
 # PIL (pip install Pillow)
 # Working installation of GPhL AutoPROC (www.globalphasing.com/autoproc/)
@@ -57,7 +57,7 @@ theme_color_rgb = [69, 142, 175]
 
 
 
-import PySimpleGUI as sg
+import FreeSimpleGUI as sg
 import subprocess
 import os
 import re
