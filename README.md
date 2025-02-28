@@ -2,7 +2,7 @@
 a simple Python-based GUI for x-ray diffraction data processing with Global Phasing's autoPROC
 
 ## What is this? And why?
-AutoGUI started as a simple "Python-learning-by-doing"-project. The goal of the project was to design a GUI for processing of macromolecular x-ray diffraction data using autoPROC (https://www.globalphasing.com/autoproc/) from Global Phasing Ltd (UK). I routinely use autoPROC for processing of my datasets and I'm very happy with its perfomance. While autoPROC ideally requires only minimal input on the command line, I've encountered datasets that required quite some lines of parameters in order to be properly processed. Starting to learn Python at the same time, I decided that a GUI for generating the command line parameters, executing autoPROC and presenting the processing results might be a good beginner's project. (This is also why the code looks probably awful to professionals - but hey, it works.)
+AutoGUI started as a simple "Python-learning-by-doing"-project. The goal of the project was to design a GUI for processing of macromolecular x-ray diffraction data using autoPROC (https://www.globalphasing.com/autoproc/) from Global Phasing Limited (UK). I routinely use autoPROC for processing of my datasets and I'm very happy with its perfomance. While autoPROC ideally requires only minimal input on the command line, I've encountered datasets that required quite some lines of parameters in order to be properly processed. Starting to learn Python at the same time, I decided that a GUI for generating the command line parameters, executing autoPROC and presenting the processing results might be a good beginner's project. (This is also why the code looks probably awful to professionals - but hey, it works.)
 Some time has passed since then and AutoGUI grew and gained features and is  used by my colleagues in the lab routinely for quite a while now.
 So maybe AutoGUI might be useful for other autoPROC users, that's why AutoGUI is now on GitHub.
 
@@ -19,7 +19,7 @@ So far, AutoGUI is developed, tested and routinely used on a server running open
 - First of all, you need to have a working installation of autoPROC (https://www.globalphasing.com/autoproc/) and the command "process" should be in your path.
 - If you have autoPROC, you certainly also have CCP4i (https://www.ccp4.ac.uk) installed. Just make sure that it is in your path.
 - The same is true for ImageMagick (https://imagemagick.org).
-- You also need to have ADXV istalled, although it does not necessarily have to be in your path as you will have to define its location in the 'autogui.cfg' configuration file. (Reason: On some systems, the command for it is written with a capital A on others not. I might include an automatic check for this at a later point.)
+- You also need to have ADXV (https://www.scripps.edu/tainer/arvai/adxv.html) installed, although it does not necessarily have to be in your path as you will have to define its location in the 'autogui.cfg' configuration file. (Reason: On some systems, the command for it is written with a capital A on others not. I might include an automatic check for this at a later point.)
 - It is highly recommended to use a dedicated Conda environment for setting up AutoGUI. It is in that case required to have Miniforge (https://www.conda-forge.org) or Miniconda/Anaconda (https://www.anaconda.org) installed on your system.
 - AutoGUI uses Python3.X (tested so far only up to 3.9) and additional required modules are Pillow, Psutil and PySimpleGUI (version 4.70.1)
 
