@@ -15,7 +15,7 @@ AutoGUI has basically two modes, termed "Classic" and "Batch".
 This is a very brief description of a few of the features that have been implemented in AutoGUI. A full description can be found in the (soon to come) manual.
 
 ## What do I need to run this?
-So far, AutoGUI is developed, tested and routinely used on a server running openSUSE Leap 15.6. It also works on macOS 15.3, although several GUI elements need adjustments to look okay on a Mac (soon to be done). 
+So far, AutoGUI is developed, tested and routinely used on a server running openSUSE Leap 15.6. It also works on macOS 15.3, although several GUI elements need adjustments to look okay on a Mac (coming soon). 
 - First of all, you need to have a working installation of autoPROC (https://www.globalphasing.com/autoproc/) and the command "process" should be in your path.
 - If you have autoPROC, you certainly also have CCP4i (https://www.ccp4.ac.uk) installed. Just make sure that it is in your path.
 - The same is true for ImageMagick (https://imagemagick.org).
@@ -36,3 +36,39 @@ It is highly recommended to use the automatic setup script, as this avoids messi
 - Rename the script 'autogui_no_conda' to 'autogui', open it with a text editor and adjust the paths to your python executable and to the location of 'autogui.py' and save the changes.
 - Make 'autogui' executable (`chmod +x autogui`)
 - Add the location of this script o your path. That should (hopefully) do it. :thumbsup:
+
+## Handbook
+COMING SOON
+
+## How do I cite AutoGUI?
+### There is (currently) no literature citation for AutoGUI.
+
+autoPROC is developed by Global Phasing Limited (UK)
+https://www.globalphasing.com
+
+### For using autoPROC via AutoGUI, please cite:
+
+- autoPROC:
+Vonrhein, C., Flensburg, C., Keller, P., Sharff, A., Smart, O., Paciorek, W.,
+Womack, T. and Bricogne, G. (2011). Data processing and analysis with
+the autoPROC toolbox. Acta Cryst. D67, 293-302.
+
+- XDS/XSCALE:
+Kabsch, W. (2010). XDS. Acta Cryst. D66, 125-132.
+
+- POINTLESS:
+Evans, P.R. (2006). Scaling and assessment of data quality, Acta Cryst. D62, 72-82.
+
+- CCP4:
+Winn, M.D., Ballard, C.C., Cowtan, K.D. Dodson, E.J., Emsley, P., Evans, P.R.,
+Keegan, R.M., Krissinel, E.B., Leslie, A.G.W., McCoy, A., McNicholas, S.J., Murshudov,
+G.N. Pannu, N.S., Potterton, E.A., Powell, H.R., Read, R.J., Vagin, A. and Wilson, K.S.
+(2011). Overview of the CCP4 suite and current developments, Acta. Cryst. D67, 235-242.
+
+- STARANISO:
+Tickle, I.J., Flensburg, C., Keller, P., Paciorek, W., Sharff, A., Vonrhein, C.,
+and Bricogne, G. (2018-2021). STARANISO. Cambridge, United Kingdom: Global Phasing Ltd.
+
+- AutoGUI is also using Adxv:
+Arvai, A. Adxv - A Program to Display X-ray Diffraction Images
+https://www.scripps.edu/tainer/arvai/adxv.html
