@@ -21,7 +21,7 @@ So far, AutoGUI is developed, tested and routinely used on a server running open
 - The same is true for ImageMagick (https://imagemagick.org).
 - You also need to have Adxv (https://www.scripps.edu/tainer/arvai/adxv.html) installed, although it does not necessarily have to be in your path as you will have to define its location in the 'autogui.cfg' configuration file. (Reason: On some systems, the command for it is written with a capital A on others not. I might include an automatic check for this at a later point.)
 - It is highly recommended to use a dedicated Conda environment for setting up AutoGUI. It is in that case required to have Miniforge (https://www.conda-forge.org) or Miniconda/Anaconda (https://www.anaconda.org) installed on your system.
-- AutoGUI uses Python3.X (tested so far only up to 3.9) and additional required modules are Pillow, Psutil and PySimpleGUI (version 4.70.1)
+- AutoGUI uses Python3.X (tested so far only up to 3.9) and additional required modules are Pillow, Psutil and ~~PySimpleGUI (version 4.70.1)~~ FreeSimpleGUI.
 
 ## How can I set it up? 
 ### Preparation
