@@ -1,6 +1,6 @@
 ===AutoGUI version history ===
 
-v.20250224
+v.20250301
 - First version to be uploaded to GitHub
 - Minor bugfixes
 - Added License information for GPL 3 (or later) 
