@@ -386,10 +386,9 @@ def utility_function(utility_command, silent):
 
 # thread for macro-list retrieval and function to keep gui working 
 def list_thread(window):
-    time.sleep(0.5)
-    window4['-MLIST-'].print(" Retrieving list of supported macros, please be patient ...")
-    window4['-MLIST-'].print("")
-    window4['-MLIST-'].print(" ---------------------------------------------------------------------------")
+    macrolist = " Retrieving list of supported macros, please be patient ...\n\n ---------------------------------------------------------------------------"
+    time.sleep(2)
+    window4.write_event_value('-MACROLIST-', macrolist)
     list_command = "process -M "+ m_list_par + " > ./macros.tmp"
     list_process = subprocess.Popen(list_command, stdout=subprocess.PIPE, universal_newlines=True, shell=True)
     decider = False
@@ -3944,6 +3943,7 @@ while True:
                 gc.collect()
                 break
             if event4 == '-MACROLIST-':
+                window4['-MLIST-'].update(value = '')
                 listing = values4['-MACROLIST-']
                 window4['-MLIST-'].print(listing)
             if event4 == '-M_DETAILS-':
