@@ -3,8 +3,8 @@ a simple Python-based GUI for x-ray diffraction data processing with Global Phas
 
 ## What is this? And why?
 AutoGUI started as a simple "Python-learning-by-doing"-project. The goal of the project was to design a GUI for processing of macromolecular x-ray diffraction data using autoPROC (https://www.globalphasing.com/autoproc/) from Global Phasing Ltd (UK). I routinely use autoPROC for processing of my datasets and I'm very happy with its perfomance. While autoPROC ideally requires only minimal input on the command line, I've encountered datasets that required quite some lines of parameters in order to be properly processed. Starting to learn Python at the same time, I decided that a GUI for generating the command line parameters, executing autoPROC and presenting the processing results might be a good beginner's project. (This is also why the code looks probably awful to professionals - but hey, it works.)
-Some time has passed since then and AutoGUI grew and gained features and has been routinely used by my colleagues in the lab for quite a while now.
-I now decided that the features of AutoGUI might be useful for other autoPROC users, that's why AutoGUI is now on GitHub.
+Some time has passed since then and AutoGUI grew and gained features and is  used by my colleagues in the lab routinely for quite a while now.
+So maybe AutoGUI might be useful for other autoPROC users, that's why AutoGUI is now on GitHub.
 
 ## Why could this be useful?
 AutoGUI has basically two modes, termed "Classic" and "Batch". 
