@@ -1,0 +1,5 @@
+conda
+process
+ccp4i
+screen
+magick

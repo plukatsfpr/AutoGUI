@@ -1,0 +1,35 @@
+(C) Copyright 2025 Peer Lukat
+Helmholtz-Centre for Infection Research, Structure & Function of Proteins
+peer.lukat@helmholtz-hzi.de
+AutoGUI is released under the GNU General Public License Version 3 (or later).
+There is (currently) no literature citation for it.
+
+autoPROC is developed by Global Phasing Limited (UK)
+https://www.globalphasing.com
+
+For using autoPROC via AutoGUI, please cite:
+
+autoPROC:
+Vonrhein, C., Flensburg, C., Keller, P., Sharff, A., Smart, O., Paciorek, W.,
+Womack, T. and Bricogne, G. (2011). Data processing and analysis with
+the autoPROC toolbox. Acta Cryst. D67, 293-302.
+
+XDS/XSCALE:
+Kabsch, W. (2010). XDS. Acta Cryst. D66, 125-132.
+
+POINTLESS:
+Evans, P.R. (2006). Scaling and assessment of data quality, Acta Cryst. D62, 72-82.
+
+CCP4:
+Winn, M.D., Ballard, C.C., Cowtan, K.D. Dodson, E.J., Emsley, P., Evans, P.R.,
+Keegan, R.M., Krissinel, E.B., Leslie, A.G.W., McCoy, A., McNicholas, S.J., Murshudov,
+G.N. Pannu, N.S., Potterton, E.A., Powell, H.R., Read, R.J., Vagin, A. and Wilson, K.S.
+(2011). Overview of the CCP4 suite and current developments, Acta. Cryst. D67, 235-242.
+
+STARANISO:
+Tickle, I.J., Flensburg, C., Keller, P., Paciorek, W., Sharff, A., Vonrhein, C.,
+and Bricogne, G. (2018-2021). STARANISO. Cambridge, United Kingdom: Global Phasing Ltd.
+
+AutoGUI is also using Adxv:
+Arvai, A. Adxv - A Program to Display X-ray Diffraction Images
+https://www.scripps.edu/tainer/arvai/adxv.html

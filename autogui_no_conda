@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# Adjust the following line to point to your version of Python3.X and the location of autogui.py
+/usr/bin/python3.6 /software/autogui/autogui.py "$@"

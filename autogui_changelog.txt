@@ -1,0 +1,122 @@
+===AutoGUI version history ===
+
+v.20250224
+- First version to be uploaded to GitHub
+- Minor bugfixes
+- Added License information for GPL 3 (or later) 
+
+v.20250224
+- AutoGUI consists now of .py scripts and is called by a bash script
+- Some fixes for compatibility
+- Improved debugging
+- Setup script for easy installation using a conda environment (DISCLAIMER: The setup script was written with assistance of ChatGPT. The rest of the code was written without the help of AI tools.)
+
+v.20250129
+- Minor bugfixes for compatibility issues with PySimpleGUI 4.70.1 and/or macOS
+
+v.20250117
+- Major release with many new features!
+- Improved color customization from the "Preferences" menu (AutoGUI launcher)
+- Export of processing results as CSV (AutoGUI Classic/Batch)
+- Improved generation of reports from the "Load and export results" menu. (New details not available for datasets processed with previous versions of AutoGUI)
+  - Detailed CSV with processing details
+  - Customizable HTML report with details
+- Improved "Drawing" window in AutoGUI Classic:
+  - Eiger slabs can be stacked to actually see something
+  - Mouse clicks in masking mode leave visible marks
+  - Improved HPAD tile gap definition dialogue.
+ - Correct display of anisotropic vectors (AutoGUI Classic)
+ - Improved status bar display (AutoGUI Classic/Batch), now also for multi-sweep datasets (AutoGUI Clssic)       
+
+v.20241126
+- Major release with many new features!
+- New: User customization accessible from via preferences in the launcher menu:
+    - Default input and output paths 
+    - Subfolders to create when "prepare folder" is selected
+    - Option to now also prepare folders in AutoGUI Batch
+    - And custom color themes!!! Dark/light modes with currently 6 choosable highlight colors, applies to all AutoGUI windows and HTML outputs
+- Reworked launcher
+- Reworked AutoGUI Batch interface
+- Added: Display of elapsed days in batch processing log
+- Changed: Versioning scheme (v.20241126 is equivalent to a 0.9.0 version according to the previous scheme, but 1.0 is still far away)
+
+0.8.0:
+- A major release with many new features!
+- New: Dark theme
+- New: Completely reworked launcher. Previous results will be displayed in a table and can be exported as HTML or CSV.
+- New: AutoGUI Batch will now try processing in up to 3 selected modes (fast, normal and/or problematic) until one (or none) works. 
+- Added: Option to export custom macros (a.k.a parameter file) (AutoGUI Classic)
+
+0.8_preview:
+- This version has still some features missing that should be included in a full 0.8 release, but to many changes to still count as a 0.7 release.
+- Added: Possibility to add command line arguments for each dataset (AutoGUI Classic)
+- Added: Manual controls over high res. cutoff criteria (AutoGUI Classic)
+- Added: Automatic determination of high res. cutoff criteria switchable between new and old behavior (CC(1/2) >= 0.3 or  I/sig(I) >= 2.0), as used until autoPROC Version 20220608) (AutoGUI Batch)
+- Added: Improved controls for handling of anomalous data (AutoGUI Classic)
+- Added: Tab to adjust experimental settings (AutoGUI Classic):
+    - View image header
+    - Run beam centre finding routines
+    - Manually set beam coordinates, distance, wavelength, oscillation angle, ...
+    - If header values are wrong, these settings can also be extrtacted from an XDS.INP file (e.g. from beamline auto-processing pipelines)
+- Added: Tool to draw masks (XDS untrusted rectangles/ellipses/quadrilaterals) and adjust direct beam coordinates on a the diffraction image (AutoGUI Classic).
+  This also includes a function to quickly mask HPAD (Pilatus, Eiger, ...) module gaps.
+- Added: Reference/FreeR MTZ can be extended to high resolution. (AutoGUI Classic)  
+- Added: Button to browse currently used data directory. (AutoGUI Classic & AutoGUI Batch)
+- Added: Option to link data from auto-processing pipelines at beamline (Known to work with DESY P11, SLS PX I & III, BESSY II beamlines 14.1, 14.2, 14.3, some ESRF beamlines)(AutoGUI Classic) 
+- Added: Inhouse detector / beamline setup can be fully configured in autogui.cfg. (AutoGUI Classic)
+- Added: Optional clean up routine (default = on) to reduce used disk space by deleting usually not required files. (AutoGUI Classic & AutoGUI Batch) 
+- Fixed: Program will not attempt to run if path names contain white spaces. (AutoGUI Classic & AutoGUI Batch)
+- Fixed: Reworked AutoGUI Classic GUI to remove collapsible sections that would cause issues with MobaXterm under Windows. (AutoGUI Classic)
+- Fixed: Folders for MR, refinement, etc. were created in the ./autoproc/autoproc_x folder instead two levels above. (AutoGUI Classic)
+- Fixed: Timers in the AutoGUI Batch HTML output are now based on JavaScript instead of self-refreshing frames to reduce load on displaying computers. Refresh-times for console and progress-meter frames have been reduced. (AutoGUI Batch)
+- Fixed: Windows should (hopefully) not look weird anymore on different Unix systems.
+- Fixed: Adjustments with regards to changes in Nov22 release of autoPROC.
+- Fixed: Crash if scaling fails but "isotropic.mtz" is still written (AutoGUI Batch)
+- Fixed: "Silenced" messages from webbrowser.
+- Known issue: Masking the beam stop on a multi sweep dataset with different 2-theta settings per sweep will be wrong for every sweep except the first one. (AutoGUI Classic)
+  This is due to different positions of the beam stop shadow on the detector. Masks around features on the detector (gaps, dead pixels) will however be correct.
+  The position of the beam center is corrected for the 2-theta offset.
+- AutoGUI has now a logo.  
+
+0.7.6:
+- Fixed: Prevented segmentation faults by changing the way threads communicate with the main process. (AutoGUI Classic)
+- Fixed: Windows won't appear between two monitors anymore. (all modules)
+
+0.7.5:
+- Fixed: Should not crash anymore during processing (usually during scaling). (All demon threads should now terminate automatically)(AutoGUI Classic)
+- Added: Mode for processing of electron diffraction (3DED/microED) datasets.(AutoGUI Classic)
+- Added: Adxv as diffraction image viewer (AutoGUI Batch)
+- Added: New menu for improved output file access in HTML (AutoGUI Batch)
+- Added: Possibility to add command line arguments for each dataset (AutoGUI Batch)
+- Added: Link to autoPROC parameters in custom parameters window (AutoGUI Classic) and as help function for custom arguments (AutoGui Batch)
+- Fixed: Bug in macro settings (AutoGUI Classic)
+- Fixed: Bug causing crash on abort of processing (AutoGUI Classic)
+
+0.7.4:
+- Added: Version history (all modules)
+- Added: Custom options for log search (AutoGUI Launcher)
+- Added: Option to apply processing settings to all datasets (AutoGUI Batch)
+- Added: Live console output in HTML log (AutoGUI Batch)
+- Added: Dataset processing status in HTML log (AutoGUI Batch)
+- Added: Detailed timers and progress-bars in HTML log (AutoGUI Batch)
+- Fixed: EIGER is now the default mode (AutoGUI Classic & AutoGUI Batch)
+- Fixed: Crash due to execution of POINTLESS (AutoGUI Classic)
+- Fixed: Bug showing wrong image numbers for individual sweeps (AutoGUI Classic)
+- Fixed: Bug showing too many sweeps in finishing dialogue (AutoGUI Classic)
+- Fixed: Cosmetic changes to processing log (AutoGUI Batch)
+
+0.7.3:
+- Added: Display of dataset info when info.txt (DESY P11) is present in raw data folder (AutoGUI Classic & AutoGUI Batch)
+- Fixed: Bug preventing display of previous results (AutoGUI Launcher)
+
+0.7.2:
+- several minor bugfixes
+
+0.7.1:
+- several minor bugfixes
+
+0.7:
+Major release:
+- New: AutoGUI is now AutoGUI Classic
+- New: AutoGUI Batch for processing of several datasets
+- New: AutoGUI Launcher for Classic & Batch modes, featuring result retrieval and execution of Batch mode in "screen", job control

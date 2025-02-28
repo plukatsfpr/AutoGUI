@@ -1,0 +1,4 @@
+Pillow
+psutil
+PySimpleGUI==4.70.1
+
