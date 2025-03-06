@@ -25,9 +25,12 @@ So far, AutoGUI is developed, tested and routinely used on a server running open
 
 ## How can I set it up? 
 ### Preparation
-1. Extract the AutoGUI files matching your OS to a folder on your system where you want it to be located.  
-2. First check if all external programs (autoPROC, CCP4i, ImagMagic and Adxv) are installed and in the path. (Adxv does not need to be in the path, the location of it is set in the next step.)
-3. Adjust the at least the parameters marked as required (and ideally also the rest) in 'autogui.cfg' to match your setup.
+1. Download AutoGUI for your OS:
+    #### https://github.com/plukatsfpr/AutoGUI/releases/download/v20250307/AutoGUI_v20250607_LINUX.zip
+    #### https://github.com/plukatsfpr/AutoGUI/releases/download/v20250307/AutoGUI_v20250607_MAC.zip
+2. Extract the AutoGUI files matching your OS to a folder on your system where you want it to be located.  
+3. First check if all external programs (autoPROC, CCP4i, ImagMagic and Adxv) are installed and in the path. (Adxv does not need to be in the path, the location of it is set in the next step.)
+4. Adjust the at least the parameters marked as required (and ideally also the rest) in 'autogui.cfg' to match your setup.
 ### Automatic setup
 The easiest and absolutely recommended way from this point on is to use the provided setup script 'autogui_conda_setup.sh'. This automates the rest of the setup process but requires Conda to be installed. Just make the script executable by typing `chmod +x autogui_conda_setup.sh` and let it run. After successful setup, a file called 'autogui' will be created and you will be offered to add AutoGUI to your path for being able to execute it from anywhere. Done! :thumbsup:
 ### Manual setup
