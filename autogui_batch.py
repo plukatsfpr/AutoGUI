@@ -18,7 +18,7 @@
 
 
 version = 'v.20250307'                             # current version
-# LINUX!
+# DARWIN!
 
 # Dependencies required:
 # FreeSimpleGUI (pip install FreeSimpleGUI)
@@ -45,7 +45,6 @@ light_theme_color = 'white'
 
 
 
-# import PySimpleGUI as sg
 import FreeSimpleGUI as sg
 import time
 import subprocess
@@ -1493,42 +1492,42 @@ sg.theme_add_new('AutoTheme', Color_Theme)
 
 # Set PySimpleGui Theme and define options
 sg.theme('AutoTheme')
-sg.set_options(font = 'Helvetica 10', titlebar_background_color = theme_color1, titlebar_text_color = theme_color2, titlebar_icon = ag_icon, icon = ag_icon)
+sg.set_options(font = 'Arial 12', titlebar_background_color = theme_color1, titlebar_text_color = theme_color2, titlebar_icon = ag_icon, icon = ag_icon)
 
 
 # gui definition
 
 
-column1 = [[sg.Text('Select parent folder of datasets:',size=(30,1), font = 'Arial 12')],
-           [sg.InputText(default_text="Folder with datasets (in subfolders)",key='-IMGS-',size=(48,2), enable_events = True), sg.Button(button_text = "Browse", tooltip = 'Browse', key = '-DATABROWSE-')]]
+column1 = [[sg.Text('Select parent folder of datasets:',size=(30,1), font = 'Arial 14')],
+           [sg.InputText(default_text="Folder with datasets (in subfolders)",key='-IMGS-',size=(50,2), enable_events = True), sg.Button(button_text = "Browse", tooltip = 'Browse', key = '-DATABROWSE-')]]
 
-column3 = [[sg.Text('Select parent folder for output:',size=(60,1), font = 'Arial 12')],
-           [sg.InputText(default_text="Folder for data processing",key='-OUTF-',size=(48,2)),sg.Button(button_text = "Set", tooltip = 'Sets current folder as output folder', key = '-SETCURRENT-', enable_events = True), sg.FolderBrowse(initial_folder = outpath, button_text = "Browse", tooltip = 'Browse', target = ('-OUTF-')),]]
+column3 = [[sg.Text('Select parent folder for output:',size=(60,1), font = 'Arial 14')],
+           [sg.InputText(default_text="Folder for data processing",key='-OUTF-',size=(50,2)),sg.Button(button_text = "Set", tooltip = 'Sets current folder as output folder', key = '-SETCURRENT-', enable_events = True), sg.FolderBrowse(initial_folder = outpath, button_text = "Browse", tooltip = 'Browse', target = ('-OUTF-')),]]
 
 
 section_debug = [[sg.Text('Error console', font = 'Arial 12', text_color = theme_color)],
-                 [sg.Multiline(size=(159,3), key='-ERROR-', font = "Courier 8", reroute_stderr = reroute_out, write_only = True, autoscroll = True)]]   
+                 [sg.Multiline(size=(136,3), key='-ERROR-', font = "Courier 11", reroute_stderr = reroute_out, write_only = True, autoscroll = True)]]   
 
-section_console = [[sg.Multiline(size=(155,6), key='-OUTPUT-', font = "Courier 8", reroute_stdout = reroute_out, reroute_stderr = False, write_only = True, autoscroll = True)]]
+section_console = [[sg.Multiline(size=(132,6), key='-OUTPUT-', font = "Courier 11", reroute_stdout = reroute_out, reroute_stderr = False, write_only = True, autoscroll = True)]]
                                                                       
 
 layout = [[sg.Frame(layout= [
-                   [sg.Column([[sg.Text('Select mode: ', font = 'Arial 12'), sg.Combo(("Synchrotron: EIGER", "Synchrotron: EIGER (mini-cbf conversion)", "Synchrotron: PILATUS (& others)")
+                   [sg.Column([[sg.Text('Select mode: ', font = 'Arial 14'), sg.Combo(("Synchrotron: EIGER", "Synchrotron: EIGER (mini-cbf conversion)", "Synchrotron: PILATUS (& others)")
                     , default_value = 'Synchrotron: EIGER', key = '-DETSEL-', size=(41,3), readonly = True, change_submits = True, enable_events = True
                     , tooltip = 'PILATUS (& others) should be also okay for older CCDs and image plates.\nEIGER datasets will only be found in "EIGER modes".\nNon-EIGER datasets will only be found in "PILATUS (& others)" mode.\nUse EIGER with mini-cbf conversion only if normal EIGER data processing does not work!')]], size = (465, 45)),
                     sg.Frame(layout = [
-                        [sg.Col([[sg.Text(welcome, font = 'Arial 12', justification = 'left', size =(48, None), background_color = None, text_color =theme_color, key = '-ABOUT-', enable_events = True, tooltip = 'About'),sg.Button('', key ='-LOGOBUTTON-', image_data=ag_icon, image_subsample = 2, border_width = 0, button_color=(sg.theme_background_color(),sg.theme_background_color()), enable_events = True, tooltip = 'About')]],
-                         size =(490,45))]],title= None,title_color=theme_color, relief=sg.RELIEF_GROOVE, element_justification = "center", vertical_alignment='center')],
+                        [sg.Col([[sg.Text(welcome, font = 'Arial 14', justification = 'left', size =(53, None), background_color = None, text_color =theme_color, key = '-ABOUT-', enable_events = True, tooltip = 'About'),sg.Button('', key ='-LOGOBUTTON-', image_data=ag_icon, image_subsample = 2, border_width = 0, button_color=(sg.theme_background_color(),sg.theme_background_color()), enable_events = True, tooltip = 'About')]],
+                         size =(490,50))]],title= None,title_color=theme_color, relief=sg.RELIEF_GROOVE, element_justification = "center", vertical_alignment='center')],
                    [sg.Frame(layout=[
                             [sg.Col([ 
                                 [sg.Column(column3,size = (515,70)), sg.Column(column1, key = '-INP1-', visible = True ,size = (420,70))],
                                 [sg.Col([[
                                     sg.Frame(layout=[ 
                                         [sg.Col([[
-                                            sg.Button("+", key = '-+-', size = (1,1), tooltip = "Scan subfolders and add found datasets."),
-                                            sg.Button("-", key = '---', size = (1,1), tooltip = " Remove selected dataset from list.\nIf no dataset is selected, the last dataset from the list will be removed."),
-                                            sg.Text(' '),
-                                            sg.Button("Clear", tooltip = "Clear list of datasets.")]
+                                            sg.Button("+", key = '-+-', size = (2,1), tooltip = "Scan subfolders and add found datasets."),
+                                            sg.Button("-", key = '---', size = (2,1), tooltip = " Remove selected dataset from list.\nIf no dataset is selected, the last dataset from the list will be removed."),
+                                            sg.Text('        '),
+                                            sg.Button(" Clear ", size = (6,1), tooltip = "Clear list of datasets.")]
                                         ], size = (170,40), vertical_alignment ="center")]    
                                     ], title='Add/remove datasets',title_color=theme_color2, relief=sg.RELIEF_GROOVE, vertical_alignment ="center"),
                                 sg.Frame(layout=[  
@@ -1538,8 +1537,8 @@ layout = [[sg.Frame(layout= [
                                 ], title='High resolution cutoff criteria',title_color=theme_color2, relief=sg.RELIEF_GROOVE, vertical_alignment ="center"),
                                 sg.Frame(layout=[   
                                   [sg.Column([[sg.Checkbox('Fast', key = '-FASTPROC-', enable_events=True, default= modeselector['fast'], tooltip = "-M fast"), 
-                                            sg.Text('\u279C', text_color= theme_color),sg.Checkbox('Normal', key = '-NORMALPROC-', enable_events=True, default= modeselector['normal'], tooltip = "autoPROC default"), 
-                                            sg.Text('\u279C', text_color= theme_color), 
+                                            sg.Text(' \u279C ', text_color= theme_color),sg.Checkbox('Normal', key = '-NORMALPROC-', enable_events=True, default= modeselector['normal'], tooltip = "autoPROC default"), 
+                                            sg.Text(' \u279C ', text_color= theme_color), 
                                             sg.Checkbox('Problematic', key = '-PROBLEMATICPROC-', enable_events=True, default= modeselector['problematic'], tooltip = "-M LowResOrTricky")
                                             ]], size = (300,40), vertical_alignment ="center")]
                                 ], title='Processing modes to try',title_color=theme_color2, relief=sg.RELIEF_GROOVE, vertical_alignment ="center"),
@@ -1553,27 +1552,27 @@ layout = [[sg.Frame(layout= [
                         ], title='Batch data processing setup',title_color=theme_color, relief=sg.RELIEF_GROOVE)],
                         [sg.Frame(layout=[
                            [sg.Col([ 
-                                [sg.Listbox(datasets, size=(117,12), key='-DATASETS-', font="Courier 10", enable_events = True)]
-                            ], size = (965, 220))]
+                                [sg.Listbox(datasets, size=(117,12), key='-DATASETS-', font="Courier 13", enable_events = True)]
+                            ], size = (965, 180))]
                         ], title='Datasets in queue',title_color=theme_color, relief=sg.RELIEF_GROOVE)],
                         [sg.Frame(layout=[
                             [sg.Col([
-                                [sg.Col([[sg.Column([[sg.Text("Prefix:")],[sg.InputText(default_text='', key = '-SELECTED-', size = (25, None), readonly = True, text_color = "black", disabled_readonly_background_color = "#D0D0D0", tooltip = "Identifier of currently selected dataset")]]),  
-                                  sg.Column([[sg.Text("Images:")],[sg.InputText(default_text='', key = '-NUMIMGS-', size = (12, None), readonly = True, text_color = "black", disabled_readonly_background_color = "#D0D0D0", tooltip = "Images in currently selected dataset")]]),     
+                                [sg.Col([[sg.Column([[sg.Text("Prefix:")],[sg.InputText(default_text='', key = '-SELECTED-', size = (27, None), readonly = True, text_color = "black", disabled_readonly_background_color = "#D0D0D0", tooltip = "Identifier of currently selected dataset")]]),  
+                                  sg.Column([[sg.Text("Images:")],[sg.InputText(default_text='', key = '-NUMIMGS-', size = (14, None), readonly = True, text_color = "black", disabled_readonly_background_color = "#D0D0D0", tooltip = "Images in currently selected dataset")]]),     
                                   sg.Column([[sg.Text("Output folder:", size = (18, None))],
-                                             [sg.InputText(default_text='', key = '-ELEMOUT-', size = (57, None), disabled = False, tooltip = "Output folder for currently selected dataset")]]),
+                                             [sg.InputText(default_text='', key = '-ELEMOUT-', size = (59, None), disabled = False, tooltip = "Output folder for currently selected dataset")]]),
                                   sg.Column([[sg.Text('')], [sg.Button("Info", tooltip = "Data collection info", disabled = True, key = '-DSINFO-', pad = (0,0,0,0))]]),
                                   sg.Column([[sg.Text('')], [sg.Button("Check images in Adxv", tooltip = "Launches external diffraction image viewer", disabled = True, key = '-ADXV-', pad = (4,0,0,0))]])]], size = (950,70))], 
-                                [sg.Col([[sg.Column([[sg.Checkbox("Supply additional parameters:", key = '-PARSON-', enable_events=True, disabled = True),sg.Text('(Help)', text_color = theme_color, font = "Courier 6 bold", key='-WEB-', enable_events=True, tooltip='Click here to open autoPROC parameter list in browser.')],
-                                                 [sg.InputText(default_text='', key = '-EXTRAPARS-', size = (123, None), disabled = True, tooltip = 'Everything in this line is added to the command line.\nParameters are usualy given in the format variable="value"\nPlease separate multiple parameters by spaces.\ne.g. beam="1532 1543" symm="P21"\nCheck autoPROC documentation for usage by clicking on "Help" above')]]), 
+                                [sg.Col([[sg.Column([[sg.Checkbox("Supply additional parameters:", key = '-PARSON-', enable_events=True, disabled = True),sg.Text('(Help)', text_color = theme_color, font = "Courier 10 bold", key='-WEB-', enable_events=True, tooltip='Click here to open autoPROC parameter list in browser.')],
+                                                 [sg.InputText(default_text='', key = '-EXTRAPARS-', size = (124, None), disabled = True, tooltip = 'Everything in this line is added to the command line.\nParameters are usualy given in the format variable="value"\nPlease separate multiple parameters by spaces.\ne.g. beam="1532 1543" symm="P21"\nCheck autoPROC documentation for usage by clicking on "Help" above')]]), 
                                   sg.Column([[sg.Text('')], [sg.Button("Apply", tooltip = "Apply output path extra parameters", disabled = True, key = '-UPDATE-', pad = (0,0,0,0))]])]], size = (950,70))] 
-                            ], size = (965, 170))]
+                            ], size = (965, 150))]
                         ], title='Selected dataset options',title_color=theme_color, relief=sg.RELIEF_GROOVE)],
                          
                     [sg.Column([[sg.Button('Run',key ='-RUN-', disabled = True, button_color ='white on green', tooltip = 'GoGoGo'), sg.Button('Quit', button_color = 'yellow on red', tooltip = 'Bail out!'),
                                  sg.Button('Kill previous job',key ='-KILL-', visible = kill_visible, mouseover_colors = "yellow on red", tooltip = 'Kill stuck previous job via PID')]],
                                size = (650, 40), vertical_alignment ="top", justification ="left", element_justification ="left"),
-                     sg.Column([[sg.Text('\u2691  Ready.', text_color = theme_color, key = '-STATUS-', font = 'Arial 12', justification = 'right', size = (32, None), tooltip = "Program status")]], size = (305, 40), vertical_alignment ="top")],
+                     sg.Column([[sg.Text('\u2691  Ready.', text_color = theme_color, key = '-STATUS-', font = 'Arial 14', justification = 'right', size = (37, None), tooltip = "Program status")]], size = (305, 40), vertical_alignment ="top")],
                     [sg.HorizontalSeparator()],
                     [sg.Frame(layout=[
                         [sg.Col([
@@ -2071,7 +2070,7 @@ while True:
         else:
             dsinfofile = 'No beamline information available'
         layout_info = [[sg.Text('Beamline settings for this dataset:', justification = "left", font = "Arial 12", text_color = theme_color)],
-                       [sg.Multiline(default_text = dsinfofile, size=(40,15), key='-DSINFOS-', write_only = True, background_color = theme_color1, font = "Courier 8", text_color = theme_color2, autoscroll = False)],
+                       [sg.Multiline(default_text = dsinfofile, size=(40,15), key='-DSINFOS-', write_only = True, background_color = theme_color1, font = "Courier 10", text_color = theme_color2, autoscroll = False)],
                        [sg.Text('')],
                        [sg.Button('Okay', highlight_colors = (theme_color, theme_color))]]           
         window_info = sg.Window('Data collection parameters', layout_info, no_titlebar=False, grab_anywhere=False, finalize = True, location = (window.current_location()[0] + 200, window.current_location()[1] + 50 ))
@@ -2684,7 +2683,7 @@ if runflag == True:
                                [sg.Text('Click "Okay" to terminate session.')],
                                [sg.Text('The browser window will also close, if still open.')],
                                [sg.Text('To access the data, copy this link to your browser:')],
-                               [sg.InputText(default_text= browsertext, size = (60, None), background_color = "white", text_color = "blue", font = "Courier 8 underline")],
+                               [sg.InputText(default_text= browsertext, size = (60, None), background_color = "white", text_color = "blue", font = "Courier 10 underline")],
                                [sg.Text('')],
                                [sg.Button('Okay', highlight_colors = (theme_color, theme_color))]]
             window_endscreen = sg.Window('Done.', layout_endscreen, no_titlebar=False, grab_anywhere=False, finalize = True)

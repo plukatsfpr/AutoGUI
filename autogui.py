@@ -18,7 +18,7 @@
 
 
 version = 'v.20250307'                             # current version
-# LINUX!
+# DARWIN!
 
 # Dependencies required:
 # FreeSimpleGUI (pip install FreeSimpleGUI)
@@ -58,7 +58,6 @@ theme_color_rgb = [69, 142, 175]
 
 
 
-# import PySimpleGUI as sg
 import FreeSimpleGUI as sg
 import subprocess
 import os
@@ -669,15 +668,15 @@ sg.theme_add_new('AutoTheme', Color_Theme)
 
 # Set PySimpleGui Theme and define options
 sg.theme('AutoTheme')
-sg.set_options(font = 'Helvetica 10', titlebar_background_color = theme_color1, titlebar_text_color = theme_color2, titlebar_icon = ag_icon, icon = ag_icon)
+sg.set_options(font = 'Arial 12', titlebar_background_color = theme_color1, titlebar_text_color = theme_color2, titlebar_icon = ag_icon, icon = ag_icon)
 
 
 layout = [[sg.Frame(layout= 
                    [[sg.Button('', key ='-LOGOBUTTON-', image_data=ag_icon, image_subsample = 1, border_width = 0, button_color=(sg.theme_background_color(),sg.theme_background_color()), enable_events = True, tooltip = 'About'),
-                         sg.Text(version, key ='-ABOUT-', font = "Helvetica 8", justification = "right", size = (11, 1),text_color = theme_color, enable_events = True, tooltip = 'About')],
-                         [sg.Button('  Classic', key ='-CLASSIC-', font = ("Helvetica 11"), disabled = classic_disabled, highlight_colors = (theme_color, theme_color), tooltip = classic_text, size = (16,2), pad = ((1, 1), (1, 1)))],
-                          [sg.Button('  Batch', key ='-BATCH-', font = ("Helvetica 11"), disabled = batch_disabled, highlight_colors = (theme_color, theme_color), tooltip = batch_text, size = (16,2), pad = ((1, 1), (1, 1)))],
-                          [sg.Col([[(sg.ButtonMenu('\u2630', menu_def, key = '-MENU-',size = (1,1), font = ("Helvetica 14"), button_color = (theme_color, theme_color1), tooltip = 'Menu', border_width = 0, pad = ((1, 1), (1, 1))))]], justification = "center")]
+                         sg.Text(version, key ='-ABOUT-', font = "Arial 10", justification = "right", size = (11, 1),text_color = theme_color, enable_events = True, tooltip = 'About')],
+                         [sg.Button('  Classic', key ='-CLASSIC-', font = ("Arial 12"), disabled = classic_disabled, highlight_colors = (theme_color, theme_color), tooltip = classic_text, size = (16,2), pad = ((1, 1), (1, 1)))],
+                          [sg.Button('  Batch', key ='-BATCH-', font = ("Arial 12"), disabled = batch_disabled, highlight_colors = (theme_color, theme_color), tooltip = batch_text, size = (16,2), pad = ((1, 1), (1, 1)))],
+                          [sg.Col([[(sg.ButtonMenu('\u2630', menu_def, key = '-MENU-',size = (1,1), font = ("Arial 14"), button_color = (theme_color, theme_color1), tooltip = 'Menu', border_width = 0, pad = ((1, 1), (1, 1))))]], justification = "center")]
                           ],
                           title = None, relief=sg.RELIEF_GROOVE, border_width = 0, pad = (1,1,1,1))]]
 
@@ -801,42 +800,42 @@ while True:
         slider_disabled = False                   
 
     if event == '-MENU-' and values['-MENU-'] == "Preferences":
-        layout_personal_settings = [[sg.Text('Edit your personal settings', font = ("Arial 12"), text_color= theme_highlight_color ,size=(40,1))],
+        layout_personal_settings = [[sg.Text('Edit your personal settings', font = ("Arial 14"), text_color= theme_highlight_color ,size=(40,1))],
                             [sg.HorizontalSeparator()],
                             [sg.Frame(layout=[
                             [sg.Col([    
                             [sg.Checkbox("Use dark theme", key = '-DARKTHEME-', default= dark_theme, enable_events = True)],
                             [sg.HorizontalSeparator()],
                             [sg.Text('Highlight presets:',size=(27,1))],
-                            [sg.Radio("1", 'HCOL', key = '-HCOL1-', size = (21, None), default = col1_true, enable_events = True, tooltip = color_option_1, background_color= color_option_1)],
-                            [sg.Radio("2", 'HCOL', key = '-HCOL2-', size = (21, None), default = col2_true, enable_events = True, tooltip = color_option_2, background_color= color_option_2)],
-                            [sg.Radio("3", 'HCOL', key = '-HCOL3-', size = (21, None), default = col3_true, enable_events = True, tooltip = color_option_3, background_color= color_option_3)],
-                            [sg.Radio("4", 'HCOL', key = '-HCOL4-', size = (21, None), default = col3_true, enable_events = True, tooltip = color_option_4, background_color= color_option_4)],
-                            [sg.Radio("5", 'HCOL', key = '-HCOL5-', size = (21, None), default = col5_true, enable_events = True, tooltip = color_option_5, background_color= color_option_5)],
-                            [sg.Radio("6", 'HCOL', key = '-HCOL6-', size = (21, None), default = col6_true, enable_events = True, tooltip = color_option_6, background_color= color_option_6)],
+                            [sg.Radio("1", 'HCOL', key = '-HCOL1-', size = (23, None), default = col1_true, enable_events = True, tooltip = color_option_1, background_color= color_option_1)],
+                            [sg.Radio("2", 'HCOL', key = '-HCOL2-', size = (23, None), default = col2_true, enable_events = True, tooltip = color_option_2, background_color= color_option_2)],
+                            [sg.Radio("3", 'HCOL', key = '-HCOL3-', size = (23, None), default = col3_true, enable_events = True, tooltip = color_option_3, background_color= color_option_3)],
+                            [sg.Radio("4", 'HCOL', key = '-HCOL4-', size = (23, None), default = col3_true, enable_events = True, tooltip = color_option_4, background_color= color_option_4)],
+                            [sg.Radio("5", 'HCOL', key = '-HCOL5-', size = (23, None), default = col5_true, enable_events = True, tooltip = color_option_5, background_color= color_option_5)],
+                            [sg.Radio("6", 'HCOL', key = '-HCOL6-', size = (23, None), default = col6_true, enable_events = True, tooltip = color_option_6, background_color= color_option_6)],
                             [sg.HorizontalSeparator()],
-                            [sg.Radio("Custom highlight:", 'HCOL', key = '-HCOL7-', size = (16, None), default = col7_true, enable_events = True, tooltip = 'Custom color')],
-                            [sg.Text('R:'), sg.Slider(range = (0,255), default_value = (theme_color_rgb[0]), resolution = (5), key = '-RSLIDER-', orientation = 'horizontal', size = (16, 10), trough_color= "red", disabled = slider_disabled, enable_events = True)],
-                            [sg.Text('G:'), sg.Slider(range = (0,255), default_value = (theme_color_rgb[1]), resolution = (5), key = '-GSLIDER-', orientation = 'horizontal', size = (16, 10), trough_color= "green", disabled = slider_disabled, enable_events = True)],
-                            [sg.Text('B:'), sg.Slider(range = (0,255), default_value = (theme_color_rgb[2]), resolution = (5), key = '-BSLIDER-', orientation = 'horizontal', size = (16, 10), trough_color= "blue", disabled = slider_disabled, enable_events = True)],
+                            [sg.Radio("Custom highlight:", 'HCOL', key = '-HCOL7-', size = (17, None), default = col7_true, enable_events = True, tooltip = 'Custom color')],
+                            [sg.Text('R:'), sg.Slider(range = (0,255), default_value = (theme_color_rgb[0]), resolution = (5), key = '-RSLIDER-', orientation = 'horizontal', size = (17, 10), trough_color= "red", disabled = slider_disabled, enable_events = True)],
+                            [sg.Text('G:'), sg.Slider(range = (0,255), default_value = (theme_color_rgb[1]), resolution = (5), key = '-GSLIDER-', orientation = 'horizontal', size = (17, 10), trough_color= "green", disabled = slider_disabled, enable_events = True)],
+                            [sg.Text('B:'), sg.Slider(range = (0,255), default_value = (theme_color_rgb[2]), resolution = (5), key = '-BSLIDER-', orientation = 'horizontal', size = (17, 10), trough_color= "blue", disabled = slider_disabled, enable_events = True)],
                             [sg.Text('Ensure that background\nis suitable for both:')],
-                            [sg.Text('dark text', key = '-DARKFIELD-', text_color = dark_theme_color, background_color= theme_color, justification = 'center', size = (11,1)), sg.Text('light text', key = '-LIGHTFIELD-', text_color = light_theme_color, background_color= theme_color, justification = 'center', size = (11,1))],
+                            [sg.Text('dark text', key = '-DARKFIELD-', text_color = dark_theme_color, background_color= theme_color, justification = 'center', size = (10,1)), sg.Text('light text', key = '-LIGHTFIELD-', text_color = light_theme_color, background_color= theme_color, justification = 'center', size = (10,1))],
                             ],
-                            size = (185, 500))]],
+                            size = (170, 400))]],
                             title = "Theme", title_color=theme_color, relief=sg.RELIEF_GROOVE),
                             sg.Frame(layout=[
                             [sg.Col([ 
                             [sg.Text('Default data storage path:',size=(26,1))],
-                            [sg.InputText(default_text=inpath,key='-INROOT-',size=(46,1)),sg.FolderBrowse(initial_folder = inpath, button_text = 'Browse', tooltip = 'Default root folder for input files', target = '-INROOT-', size = (5,1))],
+                            [sg.InputText(default_text=inpath,key='-INROOT-',size=(46,1)),sg.FolderBrowse(initial_folder = inpath, button_text = 'Browse', tooltip = 'Default root folder for input files', target = '-INROOT-', size = (6,1))],
                             [sg.Text('Default output path:',size=(20,1))],
-                            [sg.InputText(default_text=outpath,key='-OUTROOT-',size=(46,1)), sg.FolderBrowse(initial_folder = outpath, button_text = 'Browse', tooltip = 'Default root folder for output files', target = '-OUTROOT-', size = (5,1))],
+                            [sg.InputText(default_text=outpath,key='-OUTROOT-',size=(46,1)), sg.FolderBrowse(initial_folder = outpath, button_text = 'Browse', tooltip = 'Default root folder for output files', target = '-OUTROOT-', size = (6,1))],
                             [sg.Text('')],
                             [sg.Text('Subfolders to make:',size=(20,1))],
-                            [sg.InputText(default_text=preplist,key='-PREPLIST-',size=(60,1))],
+                            [sg.InputText(default_text=preplist,key='-PREPLIST-',size=(55,1))],
                             [sg.Checkbox("Make subfolders in CLASSIC mode", key = '-CLASSICFOLDER-', default= prepfolder_classic, enable_events = True)], 
                             [sg.Checkbox("Make subfolders in BATCH mode", key = '-BATCHFOLDER-', default= prepfolder_batch, enable_events = True)],
                             [sg.Text('')]],
-                            size = (410, 500))]], 
+                            size = (410, 400))]], 
                             title = "Settings", title_color=theme_color, relief=sg.RELIEF_GROOVE)],
                             [sg.HorizontalSeparator()],
                             [sg.Button('Save & Apply', key = '-SAVEAPPLY-',enable_events = True, tooltip = 'Save your preferences and apply theme.'), sg.Button('Restore Defaults', key = '-RESTOREDEFAULTS-',enable_events = True, tooltip = "Revert to AutoGUI's default settings."), sg.Button('Cancel')]]
@@ -982,27 +981,27 @@ while True:
                                     [sg.Checkbox("Batch", key = '-BATCHRESULTS-', default= batchresults)],
                                     [sg.Text('')],
                                     [sg.Button('Search', highlight_colors = (theme_color, theme_color)), sg.Button('Defaults', tooltip = 'Reset to default values. (home-folder, max. 20 logs)', highlight_colors = (theme_color, theme_color))]
-                                    ], size = (220, 160)),
+                                    ], size = (220, 125)),
                                     sg.Col([[sg.Text('Search path root:',size=(20,1))],
                                     [sg.InputText(default_text=find_path,key='-LOGROOT-',size=(33,1))],
                                     [sg.Text("Processing results to recover:"), sg.InputText(default_text=find_number,key='-LOGMAXNUM-',size=(6,2))],
                                     [sg.Text('')],
                                     [sg.Text('')] 
-                                    ], size = (230, 160)),
+                                    ], size = (230, 125)),
                                     sg.Col ([[sg.Text('')],
-                                    [sg.FolderBrowse(initial_folder = find_path, button_text = 'Browse', tooltip = 'Speed up things by narrowing down the file-tree for log-file search', target = '-LOGROOT-', size = (5,1))],
+                                    [sg.FolderBrowse(initial_folder = find_path, button_text = 'Browse', tooltip = 'Speed up things by narrowing down the file-tree for log-file search', target = '-LOGROOT-', size = (6,1))],
                                     [sg.Text('')],
                                     [sg.Text('')],
-                                    [sg.Button('Close', highlight_colors = (theme_color, theme_color))]], size = (70, 160))]
-                                ], size = (555, 165))]
+                                    [sg.Button('Close', size = (6,1), highlight_colors = (theme_color, theme_color))]], size = (80, 125))]
+                                ], size = (555, 135))]
                             ], title='Search for previous results',title_color=theme_color, relief=sg.RELIEF_GROOVE, vertical_alignment ="center")],
                             [sg.Frame(layout=[
                                 [sg.Col([
-                                    [sg.Table(table_values, ['Date','Type','Path'], num_rows=10,  def_col_width = 10, auto_size_columns = True, max_col_width = 50, enable_events= True, font = "Helvetica 9", justification = "left", key = '-RESULTSTABLE-' )],
+                                    [sg.Table(table_values, ['Date','Type','Path'], num_rows=10,  def_col_width = 10, auto_size_columns = True, max_col_width = 50, enable_events= True, font = "Arial 11", justification = "left", key = '-RESULTSTABLE-' )],
                                     [sg.Button('Show selected result', key = '-SHOWRES-', disabled = True), sg.Button('Export results as CSV', key = '-EXPORTCSV-', disabled = True), sg.Button('Export results as HTML', key = '-EXPORTHTML-', disabled = True)]
-                                ], size = (555, 250))]
+                                ], size = (555, 190))]
                             ], title='Table of found results',title_color=theme_color, relief=sg.RELIEF_GROOVE, vertical_alignment ="center")],
-                            [sg.StatusBar('\u2691  Ready.', key = '-STATUSBAR-', size = (60,1), font = ("Arial 8"))]
+                            [sg.StatusBar('\u2691  Ready.', key = '-STATUSBAR-', size = (60,1), font = ("Arial 10"))]
                             ]           
         window_findconfig = sg.Window('Find results', layout_findconfig, no_titlebar=False, alpha_channel=1, grab_anywhere=False, finalize = True, location = (window.current_location()[0] + 200, window.current_location()[1] + 50 ))
         #time.sleep(0.10)
@@ -1090,7 +1089,7 @@ while True:
             #export results table as CSV
             if event_findconfig == '-EXPORTCSV-':
                 layout_export_csv = [[sg.Text('Export found results as CSV')],
-                                [sg.InputText(default_text=find_path,key='-EXPORTPATH-',size=(36,1)), sg.FolderBrowse(initial_folder = find_path, button_text ='Browse', tooltip = 'Export table contents', target = '-EXPORTPATH-', size = (5,1))],
+                                [sg.InputText(default_text=find_path,key='-EXPORTPATH-',size=(36,1)), sg.FolderBrowse(initial_folder = find_path, button_text ='Browse', tooltip = 'Export table contents', target = '-EXPORTPATH-', size = (6,1))],
                 [sg.Text('Filename:'), sg.InputText(default_text='AutoPROC_results',key='-EXPORTNAME-',size=(17,1)), sg.Button("Save"), sg.Button("Close")]] 
 
                 window_export_csv = sg.Window('Export results', layout_export_csv, no_titlebar=False, alpha_channel=1, grab_anywhere=False, finalize = True, location = (window.current_location()[0] + 200, window.current_location()[1] + 50 ))
@@ -1124,7 +1123,7 @@ while True:
             if event_findconfig == '-EXPORTHTML-':
                 layout_export_html = [[sg.Text('Export found results as HTML with'), sg.Combo(("relative links", "absolute links"), default_value = "relative links", key = "-SELECTEXPORT-", size = (16,1), readonly = True, change_submits = True, enable_events = True), sg.Checkbox('Enforce light color scheme', key = '-LIGHTSCHEME-', default = False, tooltip = "If using dark theme, make sure that report stays printer friendly")],
                 [sg.Text('Title:', size = (10,1)), sg.InputText(default_text='Found AutoGUI Logs',key='-EXPORTTITLE-',size=(17,1)), sg.Checkbox('Include autoPROC command line', key = '-INCLAPCOM-', default = False), sg.Checkbox('Exclude failed runs', key = '-EXCLFAILED-', default = False)],
-                [sg.Text('Filename:', size = (10,1)), sg.InputText(default_text='AutoPROC_results',key='-EXPORTNAME-',size=(17,1)),sg.InputText(default_text=find_path,key='-EXPORTPATH-',size=(42,1)), sg.FolderBrowse(initial_folder = find_path, button_text ='Browse', tooltip = 'Export results as HTML document', target = '-EXPORTPATH-', size = (5,1))],
+                [sg.Text('Filename:', size = (10,1)), sg.InputText(default_text='AutoPROC_results',key='-EXPORTNAME-',size=(17,1)),sg.InputText(default_text=find_path,key='-EXPORTPATH-',size=(42,1)), sg.FolderBrowse(initial_folder = find_path, button_text ='Browse', tooltip = 'Export results as HTML document', target = '-EXPORTPATH-', size = (6,1))],
                 [sg.Button("Save"), sg.Button("Close")]] 
 
                 window_export_html = sg.Window('Export results', layout_export_html, no_titlebar=False, alpha_channel=1, grab_anywhere=False, finalize = True, location = (window.current_location()[0] + 200, window.current_location()[1] + 50 ))

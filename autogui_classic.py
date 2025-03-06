@@ -18,7 +18,7 @@
 
 
 version = 'v.20250307'                             # current version
-# LINUX!
+# DARWIN!
 
 # Dependencies required:
 # FreeSimpleGUI (pip install FreeSimpleGUI)
@@ -59,7 +59,6 @@ light_theme_color = 'white'
 
 # Python stuff starts here
 
-# import PySimpleGUI as sg
 import FreeSimpleGUI as sg
 import time
 import subprocess
@@ -1121,21 +1120,21 @@ def finish_popup(runnumber, dumppath, folder, cutmod, success):
             layout_success = [[sg.Frame(layout=[
                               [sg.Text("")],
                               [sg.Column(layout=[  
-                                  [sg.Text(success_status, justification = 'center', font = 'Arial 12', background_color = theme_color1, text_color = "dark green")]], element_justification = 'center', background_color = theme_color1)],
+                                  [sg.Text(success_status, justification = 'center', font = 'Arial 14', background_color = theme_color1, text_color = "dark green")]], element_justification = 'center', background_color = theme_color1)],
                               [sg.Text("")],
                               [sg.HorizontalSeparator(color = None)],
                               [sg.Text('Space group:')],
-                              [sg.Text(success_sg ,text_color = theme_color, font = "Courier 10 bold")],
+                              [sg.Text(success_sg ,text_color = theme_color, font = "Courier 12 bold")],
                               [sg.Text("")],
                               [sg.Text('Unit cell:')],
-                              [sg.Text(success_cell ,text_color = theme_color, font = "Courier 10 bold")],
+                              [sg.Text(success_cell ,text_color = theme_color, font = "Courier 12 bold")],
                               [sg.Text("")],
                               [sg.Text(success_cutoff)],
-                              [sg.Text(success_iso ,text_color = theme_color, font = "Courier 10 bold")],
+                              [sg.Text(success_iso ,text_color = theme_color, font = "Courier 12 bold")],
                               [sg.Text("")],
                               [sg.Text('Anisotropic diffraction limits (local I/sig(I) >= 1.2):')],
-                              [sg.Text(success_aniso ,text_color = theme_color, font = "Courier 10 bold")],
-                              [sg.Text('')]],title='\u2714 Success!', title_color="dark green", font = "Arial 12", element_justification = 'center', relief=sg.RELIEF_GROOVE)],
+                              [sg.Text(success_aniso ,text_color = theme_color, font = "Courier 12 bold")],
+                              [sg.Text('')]],title='\u2714 Success!', title_color="dark green", font = "Arial 14", element_justification = 'center', relief=sg.RELIEF_GROOVE)],
                               [sg.Button('Yay!', highlight_colors = (theme_color, theme_color))]]           
             window_success = sg.Window('Success!', layout_success, no_titlebar=False, grab_anywhere=False, finalize = True, location = (window.current_location()[0] + 200, window.current_location()[1] + 50 ))
             while True:
@@ -1319,13 +1318,13 @@ def show_sets(show_eiger, findimgpath):
             layout_found_info = [[sg.Frame(layout=[
                               [sg.Text("")],
                               [sg.Column(layout=[  
-                                  [sg.Text(foundtitle, justification = 'center', font = 'Arial 12', background_color = theme_color1, text_color = theme_color)]], element_justification = 'center', background_color = theme_color1)],
+                                  [sg.Text(foundtitle, justification = 'center', font = 'Arial 14', background_color = theme_color1, text_color = theme_color)]], element_justification = 'center', background_color = theme_color1)],
                               [sg.HorizontalSeparator(color = None)],
                               [sg.Multiline(default_text = foundmsg, size=(35,7), write_only = True, disabled = True, background_color = theme_color1, text_color = theme_color2, autoscroll = False)],
                               [sg.Text('', visible = dsinfovisible)],
                               [sg.Text('Beamline settings for this dataset:', text_color = theme_color, visible = dsinfovisible)],
-                              [sg.Multiline(default_text = dsinfofile, size=(40,15), key='-DSINFOS-', write_only = True, disabled = True, background_color = theme_color1, font = "Courier 8", text_color = theme_color2, autoscroll = False, visible = dsinfovisible)],
-                              [sg.Text('')]],title='\u2714 Data found', title_color= theme_color, font = "Arial 12", element_justification = 'center', relief=sg.RELIEF_GROOVE)],
+                              [sg.Multiline(default_text = dsinfofile, size=(40,15), key='-DSINFOS-', write_only = True, disabled = True, background_color = theme_color1, font = "Courier 10", text_color = theme_color2, autoscroll = False, visible = dsinfovisible)],
+                              [sg.Text('')]],title='\u2714 Data found', title_color= theme_color, font = "Arial 14", element_justification = 'center', relief=sg.RELIEF_GROOVE)],
                               [sg.Button('Okay', highlight_colors = (theme_color, theme_color))]]           
             window_found_info = sg.Window(foundtitle, layout_found_info, no_titlebar=False, grab_anywhere=False, finalize = True, location = (window.current_location()[0] + 200, window.current_location()[1] + 50 ))
             while True:
@@ -1709,19 +1708,19 @@ sg.theme_add_new('AutoTheme', Color_Theme)
 
 # Set PySimpleGui Theme and define options
 sg.theme('AutoTheme')
-sg.set_options(font = 'Helvetica 10', titlebar_background_color = theme_color1, titlebar_text_color = theme_color2, titlebar_icon = ag_icon, icon = ag_icon)
+sg.set_options(font = 'Arial 12', titlebar_background_color = theme_color1, titlebar_text_color = theme_color2, titlebar_icon = ag_icon, icon = ag_icon)
 
 
 # gui definition
 
-image_inp_col = [[sg.Text('Select your raw data (image) folder:',size=(30,1), font = 'Arial 12')],
-                 [sg.InputText(default_text="Folder with diffraction images",key='-IMGS-',size=(44,2)), sg.Button(button_text = "Browse", tooltip = 'Browse', key = '-DATABROWSE-')]]
+image_inp_col = [[sg.Text('Select your raw data (image) folder:',size=(30,1), font = 'Arial 14')],
+                 [sg.InputText(default_text="Folder with diffraction images",key='-IMGS-',size=(46,2)), sg.Button(button_text = "Browse", tooltip = 'Browse', key = '-DATABROWSE-')]]
 
-h5_inp_col = [[sg.Text('Select master.h5 file:',size=(60,1), font = 'Arial 12')],
-              [sg.InputText(default_text="Path to HDF5 master file for EIGER data",key='-HDF5-',size=(44,2)), sg.Button(button_text = "Browse", tooltip = 'Browse', key = '-EIGERBROWSE-')]]
+h5_inp_col = [[sg.Text('Select master.h5 file:',size=(60,1), font = 'Arial 14')],
+              [sg.InputText(default_text="Path to HDF5 master file for EIGER data",key='-HDF5-',size=(46,2)), sg.Button(button_text = "Browse", tooltip = 'Browse', key = '-EIGERBROWSE-')]]
 
-output_col = [[sg.Text('Select output folder:',size=(60,1), font = 'Arial 12')],
-              [sg.InputText(default_text="Folder for data processing",key='-OUTF-',size=(44,2)),sg.Button(button_text = "Set", tooltip = 'Sets current folder as output folder', key = '-SETCURRENT-', enable_events = True), sg.FolderBrowse(initial_folder = outpath, button_text = "Browse", tooltip = 'Browse', target = ('-OUTF-')),]]
+output_col = [[sg.Text('Select output folder:',size=(60,1), font = 'Arial 14')],
+              [sg.InputText(default_text="Folder for data processing",key='-OUTF-',size=(46,2)),sg.Button(button_text = "Set", tooltip = 'Sets current folder as output folder', key = '-SETCURRENT-', enable_events = True), sg.FolderBrowse(initial_folder = outpath, button_text = "Browse", tooltip = 'Browse', target = ('-OUTF-')),]]
 
 check_col = [[sg.Checkbox('Prepare folder', key='-PREP-', default = prepfolder_classic, tooltip = 'Make default sub-folders for MR, refinement, etc.',size = (None,1)), sg.Checkbox('Link auto-processed beamline data', key='-LINK-', tooltip = 'Make link to beamline auto-processing data, if available', size = (None,1), default = True), sg.Checkbox('Link images', key='-LINKIMG-', tooltip = 'Make a folder with links to the diffraction images', size = (None,1))]]
 
@@ -1736,11 +1735,11 @@ reso_column = [[sg.Checkbox('Set resolution limits manually', key = '-RESLIM-', 
 
 mtz_column = [[sg.Checkbox('Reference', default = False, key='-SGREF-', enable_events=True, disabled = False, tooltip = "Uses freeR-flag, space group and cell from given MTZ file"),
                sg.Checkbox('FreeR-flag', default = False, key = '-FREECOPY-', enable_events = True, disabled = False, tooltip = "Copies freeR-flag from given MTZ file")],
-              [sg.InputText('', size=(25,1), key ='-REF-', disabled = True), sg.Button('Browse', key = '-REFBROWSE-', disabled = True)]]
+              [sg.InputText('', size=(28,1), key ='-REF-', disabled = True), sg.Button('Browse', key = '-REFBROWSE-', disabled = True)]]
     
-anomalous_column = [[sg.Col([[sg.Radio("Auto", 'ANOM', key = '-ANOMAUTO-', size = (4, None), default = True, enable_events = True, tooltip = 'Rely on autoPROC\'s defaults for detection and handling of potential anomalous signal.\n(Friedel\'s Law = ???)'),
-                        sg.Radio("Yes", 'ANOM', key = '-ANOMYES-', size = (4, None), enable_events = True, tooltip = 'Make autoPROC assume anomalous signal, even if it is weak.\n(Friedel\'s Law = False)'),
-                        sg.Radio("No", 'ANOM', key = '-ANOMNO-', size = (4, None), enable_events = True, tooltip = 'Ignore indications of anomalous signal, even if detected.\n(Friedel\'s Law = True)')],
+anomalous_column = [[sg.Col([[sg.Radio("Auto", 'ANOM', key = '-ANOMAUTO-', size = (10, None), default = True, enable_events = True, tooltip = 'Rely on autoPROC\'s defaults for detection and handling of potential anomalous signal.\n(Friedel\'s Law = ???)'),
+                        sg.Radio("Yes", 'ANOM', key = '-ANOMYES-', size = (10, None), enable_events = True, tooltip = 'Make autoPROC assume anomalous signal, even if it is weak.\n(Friedel\'s Law = False)'),
+                        sg.Radio("No", 'ANOM', key = '-ANOMNO-', size = (10, None), enable_events = True, tooltip = 'Ignore indications of anomalous signal, even if detected.\n(Friedel\'s Law = True)')],
                         [sg.Checkbox('Expect very strong signal', key = '-ANOMLARGE-', enable_events = True, default = False, disabled = True, tooltip = 'Apply special settings for very strong anomalous signal.')]], element_justification = 'left', justification = 'left')]]
 
 cutoff_column = [[sg.Combo(("CC(1/2)>=0.3 (default)", "I/sig(I)>=2.0, CC(1/2)>=0.3, Rpim<=0.6 (old default)", "Custom values for I/sig(I), CC(1/2), Rpim",),
@@ -1756,44 +1755,42 @@ cutoff_column = [[sg.Combo(("CC(1/2)>=0.3 (default)", "I/sig(I)>=2.0, CC(1/2)>=0
                         
 
 macro_column = [[sg.Checkbox('Run with macro', key = '-ENABLEMACRO-', enable_events = True, disabled = False, tooltip = 'Use a macro from autoPROC\'s list.\nCan\'t be combined with custom parameters.')],
-                [sg.Combo(m_list, size=(25,1), key = '-MACRO-', disabled = True, enable_events = True, change_submits = True, default_value = '---Select macro---', tooltip = 'Select macro'), sg.Button('Macro details',key = '-LISTMACROS-',disabled = True, tooltip = 'Show list of macros with explanations')],
+                [sg.Combo(m_list, size=(28,1), key = '-MACRO-', disabled = True, enable_events = True, change_submits = True, default_value = '---Select macro---', tooltip = 'Select macro'), sg.Button('Macro details',key = '-LISTMACROS-',disabled = True, tooltip = 'Show list of macros with explanations')],
                 [sg.Text('Macros not available if custom parameters are set!', key = '-MACROWARNING-', text_color = theme_color1)]]
 
-custom_column = [[sg.Checkbox('Set parameters', key = '-CUSTPAR-', tooltip = 'Your own macro.\nCan\'t be used together with pre-defined macros.', enable_events = True, disabled = False, size =(25, None)),sg.Button('Edit', key = '-EDPAR-', disabled = True)]]
+custom_column = [[sg.Checkbox('Set parameters', key = '-CUSTPAR-', tooltip = 'Your own macro.\nCan\'t be used together with pre-defined macros.', enable_events = True, disabled = False, size =(28, None)),sg.Button('Edit', key = '-EDPAR-', disabled = True, size =(6,1))]]
 
 extra_column = [[sg.Checkbox("Supply additional arguments:", key = '-PARSON-', enable_events=True, default = False,
                     tooltip = 'Everything in this line is added to the command line as is.\nParameters are usualy given in the format variable="value"\nPlease separate multiple parameters by spaces.\ne.g. beam="1532 1543" symm="P21"\nCheck autoPROC documentation for usage by clicking on "Help"'),
                  sg.InputText(default_text='', key = '-EXTRAPARS-', size = (65, None), disabled = True,
                     tooltip = 'Everything in this line is added to the command line as is.\nParameters are usualy given in the format variable="value"\nPlease separate multiple parameters by spaces.\ne.g. beam="1532 1543" symm="P21"\nCheck autoPROC documentation for usage by clicking on "Help"'),
-                 sg.Text('(Help)', text_color = theme_color, font = "Courier 6 bold", key='-WEB-', enable_events=True, tooltip='Click here to open autoPROC parameter list in browser.'),]]
+                 sg.Text('(Help)', text_color = theme_color, font = "Courier 8 bold", key='-WEB-', enable_events=True, tooltip='Click here to open autoPROC parameter list in browser.'),]]
 
 cleanup_column = [[sg.Checkbox("Clean up output files", key = '-CLEANUP-', enable_events=True, default = True,
                     tooltip = 'Disk usage will be reduced by deleting output files that are unlikely to be required\nAll files required for the HTML-log and all .log and .LP files will be preserved.')]]
 
-image_column = [[sg.Checkbox('Customize image range', key = '-SWEEPSET-',enable_events = True, disabled = False, tooltip = 'If not set, all images will be used.'), sg.Button('Define', key = '-SWEEPRANGE-',enable_events = True, disabled = True, tooltip = 'Detect sweeps & define sets of images to process'),
-                    sg.Checkbox('Exclude bad images', key = '-BADIMGS-', tooltip = 'Should autoPROC automatically exlude bad images?\n(Default behavior = yes)', default = True, enable_events = True, disabled = False)]]
+image_column = [[sg.Checkbox('Customize image range', key = '-SWEEPSET-',enable_events = True, disabled = False, tooltip = 'If not set, all images will be used.'), sg.Button('Define', key = '-SWEEPRANGE-',enable_events = True, disabled = True, tooltip = 'Detect sweeps & define sets of images to process'),sg.Text('', size = (8,1)), sg.Checkbox('Exclude bad images', key = '-BADIMGS-', tooltip = 'Should autoPROC automatically exlude bad images?\n(Default behavior = yes)', default = True, enable_events = True, disabled = False)]]
 
 processor_column = [[sg.Text('Use',  justification = 'right', size =(4,1)),sg.InputText(nprocs, size =(3,1), key = '-NPROC-', tooltip = '8 should be sufficient!'),sg.Text('processors',  justification = 'left', size =(11,1))]]
 
 imginfo_column = [[sg.Col(
-                   [[sg.Multiline(size=(60,20), key='-IMGINFO-', autoscroll = False, no_scrollbar = True, do_not_clear = False, font ="Courier 8", write_only = True, tooltip = "Displays the header of your dataset's first image\nas read by imginfo")]]
+                   [[sg.Multiline(size=(60,25), key='-IMGINFO-', autoscroll = False, no_scrollbar = True, do_not_clear = False, font ="Courier 10", write_only = True, tooltip = "Displays the header of your dataset's first image\nas read by imginfo")]]
                    ,size = (375,280))]]
 
 imgsettings_column = [[sg.Col(      
                        [[sg.Text('Beam centre from:'),sg.Combo((beamcentreactions_eiger),
                        default_value = beamcentremode, key = '-BEAMCENTREMODE-', size=(40,5), readonly = True, change_submits = True, enable_events = True, tooltip = 'In most cases, the beam centre form the header should be fine.\nIf X and Y axes might be swapped and/or inverted, "try possible transformations".\nGuessing the beamcenter based on circular features in the image will most likely fail.\nBetter specify the beam centre manually or set it in the diffraction image.')],
                        [sg.Text('', font = 'Arial 6')],
-                       [sg.Text('', size = (2,1)),sg.Text('Beam X:',size=(12,1)),sg.InputText(default_text= beamcentrex,key='-BEAMX-',size=(8,1), disabled = True),sg.Text('px',size=(5,1)),
-                        sg.Text('', size = (2,1)),sg.Text('Beam Y:',size=(12,1)),sg.InputText(default_text= beamcentrey,key='-BEAMY-',size=(8,1), disabled = True),sg.Text('px')],
-                       [sg.Text('', font = 'Arial 6')],
-                       [sg.Checkbox('Distance:',size=(12,1),key = '-DISTBOX-', default = False, enable_events = True),sg.InputText(default_text= distance,key='-DIST-',size=(8,1), disabled = True),sg.Text('mm',size=(5,1)),
-                        sg.Checkbox(text= 'Wavelength:', key = '-WLBOX-',size=(12,1), default = False, enable_events = True),sg.InputText(default_text= wavelength,key='-WAVEL-',size=(8,1),disabled = True),sg.Text('Å')],
-                       [sg.Checkbox('Oscillation:',size=(12,1),key = '-OSCBOX-', default = False, enable_events = True),sg.InputText(default_text= oscillation,key='-OSC-',size=(8,1), disabled = True),sg.Text('°',size=(5,1)),
-                        sg.Checkbox(text= 'Overload:', key = '-OVERLOADBOX-',size=(12,1), default = False, enable_events = True),sg.InputText(default_text= overload,key='-OVERLOAD-',size=(8,1),disabled = True),sg.Text('')], 
-                       [sg.Checkbox('Pixel size X:',size=(12,1), key = '-PIXELSIZEBOX-', default = False, enable_events = True),sg.InputText(default_text= pixelsizex,key='-XPIXELSIZE-',size=(8,1), disabled = True),sg.Text('mm',size=(5,1)),
-                        sg.Text('', size = (2,1)),sg.Text('Pixel size Y:',size=(12,1)),sg.InputText(default_text= pixelsizey,key='-YPIXELSIZE-',size=(8,1), disabled = True),sg.Text('mm')],
-                       [sg.Checkbox('No. X-pixels:',size=(12,1), key = '-PIXELNUMBOX-', default = False, enable_events = True),sg.InputText(default_text= nopixelx,key='-XPIXELS-',size=(8,1), disabled = True),sg.Text('',size=(5,1)),
-                        sg.Text('', size = (2,1)),sg.Text('No. Y-pixels:',size=(12,1)),sg.InputText(default_text= nopixely,key='-YPIXELS-',size=(8,1), disabled = True),sg.Text('')],
+                       [sg.Col([[sg.Text('')]], size = (25, 30)), sg.Text('Beam X:',size=(12,1)), sg.InputText(default_text= beamcentrex,key='-BEAMX-',size=(8,1), disabled = True),sg.Text('px',size=(5,1)),
+                        sg.Col([[sg.Text('')]], size = (25, 30)), sg.Text('Beam Y:',size=(12,1)), sg.InputText(default_text= beamcentrey,key='-BEAMY-',size=(8,1), disabled = True),sg.Text('px')],
+                       [sg.Col([[sg.Checkbox('', key = '-DISTBOX-', default = False, enable_events = True)]], size = (25, 30)), sg.Text('Distance:',size=(12,1)), sg.InputText(default_text= distance,key='-DIST-',size=(8,1), disabled = True),sg.Text('mm',size=(5,1)),
+                        sg.Col([[sg.Checkbox('', key = '-WLBOX-', default = False, enable_events = True)]], size = (25, 30)), sg.Text('Wavelength:',size=(12,1)),sg.InputText(default_text= wavelength,key='-WAVEL-',size=(8,1),disabled = True),sg.Text('Å')],
+                       [sg.Col([[sg.Checkbox('', key = '-OSCBOX-', default = False, enable_events = True)]], size = (25, 30)), sg.Text('Oscillation:',size=(12,1)), sg.InputText(default_text= oscillation,key='-OSC-',size=(8,1), disabled = True),sg.Text('°',size=(5,1)),
+                        sg.Col([[sg.Checkbox('', key = '-OVERLOADBOX-', default = False, enable_events = True)]], size = (25, 30)),  sg.Text('Oscillation:',size=(12,1)), sg.InputText(default_text= overload,key='-OVERLOAD-',size=(8,1),disabled = True),sg.Text('')], 
+                       [sg.Col([[sg.Checkbox('', key = '-PIXELSIZEBOX-', default = False, enable_events = True)]], size = (25, 30)),  sg.Text('Pixel size X:',size=(12,1)), sg.InputText(default_text= pixelsizex,key='-XPIXELSIZE-',size=(8,1), disabled = True),sg.Text('mm',size=(5,1)),
+                        sg.Col([[sg.Text('')]], size = (25, 30)), sg.Text('Pixel size Y:',size=(12,1)),sg.InputText(default_text= pixelsizey,key='-YPIXELSIZE-',size=(8,1), disabled = True),sg.Text('mm')],
+                       [sg.Col([[sg.Checkbox('', key = '-PIXELNUMBOX-', default = False, enable_events = True)]], size = (25, 30)),  sg.Text('No. X-pixels::',size=(12,1)), sg.InputText(default_text= nopixelx,key='-XPIXELS-',size=(8,1), disabled = True),sg.Text('',size=(5,1)),
+                        sg.Col([[sg.Text('')]], size = (25, 30)), sg.Text('No. Y-pixels:',size=(12,1)),sg.InputText(default_text= nopixely,key='-YPIXELS-',size=(8,1), disabled = True),sg.Text('')],
                        [sg.Col([[]], size = (None, 10))],
                        [sg.Col([[sg.Button('Reset to header values', highlight_colors = (theme_color, theme_color), key = '-IMGHEADERVALS-', size = (27, 1), disabled = True, tooltip = 'Reload the values from the header of the first image'), sg.Input(key='-XDSINP-', visible=False, enable_events=True), sg.FileBrowse('Use values from XDS.INP file', key = '-XDSINPLOAD-', size = (27, 1), disabled = True, tooltip = 'Fill above table with values provided in a "XDS.INP" file\n(probably from beamline processing)', file_types = (('XDS input file', ('*.INP', '*.INP*')),))]], justification = "center")]])]]
                 
@@ -1801,9 +1798,9 @@ options_tab_1 = [[sg.Frame(layout=[
                  [sg.Column(output_col,size = (495,70)), sg.Column(image_inp_col, key = '-INP1-', visible = False ,size = (405,70)), sg.Column(h5_inp_col, key = '-INP2-', visible = True ,size = (405,70))],
                  ],title='Required minimum input',title_color=theme_color, relief=sg.RELIEF_GROOVE)],
                  [sg.Frame(layout=[
-                 [sg.Column(subdir_col, key='-COL3-', visible=True ,size = (405,30)), sg.Column(check_col ,size = (495,30))]],title='Common options',title_color=theme_color, relief=sg.RELIEF_GROOVE)],  
+                 [sg.Column(subdir_col, key='-COL3-', visible=True ,size = (455,30)), sg.Column(check_col ,size = (445,30))]],title='Common options',title_color=theme_color, relief=sg.RELIEF_GROOVE)],  
                  [sg.Frame(layout=[[
-                    sg.Column([[sg.Multiline(size=(147,14), key='-OUTPUT-', font = "Courier 8", reroute_stdout = reroute_out, echo_stdout_stderr = echo_out, write_only = True, autoscroll = True)]],size = (930, None))]], title='Console',title_color=theme_color, relief=sg.RELIEF_GROOVE)]]  
+                    sg.Column([[sg.Multiline(size=(146,18), key='-OUTPUT-', font = "Courier 10", reroute_stdout = reroute_out, echo_stdout_stderr = echo_out, write_only = True, autoscroll = True)]],size = (930, None))]], title='Console',title_color=theme_color, relief=sg.RELIEF_GROOVE)]]  
 
 options_tab_2 = [[sg.Frame(layout=[      
                   [sg.Frame(layout=[[sg.Column(cutoff_column, size = (375, 70))]],  
@@ -1812,9 +1809,9 @@ options_tab_2 = [[sg.Frame(layout=[
                     title='Resolution limits',title_color=theme_color, relief=sg.RELIEF_GROOVE),    
                    sg.Frame(layout=[[sg.Column(anomalous_column, size = (255, 70))]],
                     title='Anomalous data?',title_color=theme_color, relief=sg.RELIEF_GROOVE)],
-                   [sg.Frame(layout=[[sg.Column(spg_column, size = (270, 100))]], title='Space group and cell',title_color=theme_color, relief=sg.RELIEF_GROOVE),
-                    sg.Frame(layout=[[sg.Column(mtz_column, size = (270, 100))]], title='Provide MTZ for:',title_color=theme_color, relief=sg.RELIEF_GROOVE),
-                    sg.Frame(layout=[[sg.Column(macro_column, size = (336, 100))]], title='Macros',title_color=theme_color, relief=sg.RELIEF_GROOVE)],
+                   [sg.Frame(layout=[[sg.Column(spg_column, size = (270, 80))]], title='Space group and cell',title_color=theme_color, relief=sg.RELIEF_GROOVE),
+                    sg.Frame(layout=[[sg.Column(mtz_column, size = (270, 80))]], title='Provide MTZ for:',title_color=theme_color, relief=sg.RELIEF_GROOVE),
+                    sg.Frame(layout=[[sg.Column(macro_column, size = (336, 80))]], title='Macros',title_color=theme_color, relief=sg.RELIEF_GROOVE)],
                    [sg.Frame(layout=[[sg.Column(processor_column, size = (154, 45))]],title='Parallel threads',title_color=theme_color, relief=sg.RELIEF_GROOVE),
                     sg.Frame(layout=[[sg.Column(image_column, size = (430, 45))]],title='Image range',title_color=theme_color, relief=sg.RELIEF_GROOVE),
                     sg.Frame(layout=[[sg.Column(custom_column, size = (286, 45))]],title='Custom parameters',title_color=theme_color, relief=sg.RELIEF_GROOVE)],
@@ -1830,27 +1827,27 @@ options_tab_3 = [[sg.Frame(layout=[
 
 
 section_debug = [[sg.Frame(layout=[
-                    [sg.Column([[sg.Multiline(size=(147,8), key='-ERROR-', font = "Courier 8", reroute_stderr = reroute_out, write_only = True, autoscroll = True)]],size = (905, 120))]], title='Error console',title_color=theme_color, relief=sg.RELIEF_GROOVE)]]  
+                    [sg.Column([[sg.Multiline(size=(145,8), key='-ERROR-', font = "Courier 10", reroute_stderr = reroute_out, write_only = True, autoscroll = True)]],size = (905, 120))]], title='Error console',title_color=theme_color, relief=sg.RELIEF_GROOVE)]]  
 
                                                                      
 layout = [[sg.Frame(layout= [
-                   [sg.Col([[sg.Text("\u2691", text_color = theme_color, font = 'Courier, 20', size = (2, None), justification = 'left', key = '-STATICON-', tooltip = "Program status.\nAs long as it is blinking, it is still doing something.\n\n>>If it blinks, we can kill it.<<\n     - Dutch.", visible = True),
+                   [sg.Col([[sg.Text("\u2691", text_color = theme_color, font = 'Courier, 22', size = (2, None), justification = 'left', key = '-STATICON-', tooltip = "Program status.\nAs long as it is blinking, it is still doing something.\n\n>>If it blinks, we can kill it.<<\n     - Dutch.", visible = True),
                              sg.Text('Select mode: ', font = 'Arial 12'), sg.Combo(("Synchrotron: EIGER", "Synchrotron: EIGER (mini-cbf conversion)", "Synchrotron: PILATUS", inhouse_detector, "Others: Image plates, CCDs, ...", "Electron diffraction"),
            default_value = 'Synchrotron: EIGER', key = '-DETSEL-', size=(41,6), readonly = True, change_submits = True, enable_events = True, tooltip = 'Use EIGER with mini-cbf conversion only if normal EIGER data processing does not work!')]], size = (465, 45)),
-           sg.Frame(layout = [[sg.Col([[sg.Text(welcome, font = 'Arial 12', justification = 'left', size =(42, None), background_color = None, text_color =theme_color, key = '-ABOUT-', enable_events = True, tooltip = 'About'),sg.Button('', key ='-LOGOBUTTON-', image_data=ag_icon, image_subsample = 2, border_width = 0, button_color=(sg.theme_background_color(),sg.theme_background_color()), enable_events = True, tooltip = 'About')]], size =(435,45))]],title= None,title_color=theme_color, relief=sg.RELIEF_GROOVE, element_justification = "center", vertical_alignment='center')], 
+           sg.Frame(layout = [[sg.Col([[sg.Text(welcome, font = 'Arial 14', justification = 'left', size =(46, None), background_color = None, text_color =theme_color, key = '-ABOUT-', enable_events = True, tooltip = 'About'),sg.Button('', key ='-LOGOBUTTON-', image_data=ag_icon, image_subsample = 2, border_width = 0, button_color=(sg.theme_background_color(),sg.theme_background_color()), enable_events = True, tooltip = 'About')]], size =(435,50))]],title= None,title_color=theme_color, relief=sg.RELIEF_GROOVE, element_justification = "center", vertical_alignment='center')], 
           [sg.TabGroup([[sg.Tab('Basics', options_tab_1, key = '-TAB1-'), sg.Tab('Processing options', options_tab_2, key = '-TAB2-'), sg.Tab('Images & experiment', options_tab_3, key = '-TAB3-')]],
             title_color = theme_color1, tab_background_color = theme_color, selected_background_color = theme_color1, selected_title_color = theme_color2, font = 'Arial 12', border_width = 0, size = (930, 400),
             enable_events = True, key = '-TABGROUP-')],
           [sg.Frame(layout = [  
-          [sg.Col([[sg.ProgressBar(BAR_MAX, orientation='horizontal', size=(92,20), key='-PROG-', visible = True)]],size = (925, 30))],     
+          [sg.Col([[sg.ProgressBar(BAR_MAX, orientation='horizontal', size=(102,20), key='-PROG-', visible = True)]],size = (925, 30))],     
           [sg.Col([[sg.Button('Run',key ='-RUN-', disabled = False, button_color ='white on green', tooltip = 'GoGoGo'), sg.Button('Quit', button_color = 'yellow on red', tooltip = 'Bail out!')]], size = (150, 40), vertical_alignment ="top", justification ="left"),
            sg.Col([[sg.Text('', key =('-TMSG-'), size = (15,1), justification = "left", text_color = theme_color, tooltip = 'Is it still doing something?'), sg.Text('', key =('-TIME-'), size = (8,1), justification = "left",text_color = theme_color, tooltip = 'time for a coffee...'), sg.Text(progword, key='-PW-', size = (51,1), justification = "right", text_color = theme_color, tooltip = 'Processing status\n\nStatus and progress-bar updates will not be shown\nif the dataset consists of more than one scan / sweep')]],
-                    size = (592, 40),vertical_alignment ="bottom", justification ="center"), sg.Col([[ sg.Button('Check images in Adxv', tooltip = 'Launches external diffraction image viewer')]],
+                    size = (618, 40),vertical_alignment ="bottom", justification ="center"), sg.Col([[ sg.Button('Check images in Adxv', tooltip = 'Launches external diffraction image viewer')]],
                     size = (170,40), vertical_alignment ="top", justification = "right", element_justification = "right")],
           [sg.Col([[sg.Button('Show live-processing in browser', tooltip = 'self refreshing version of AutoPROC\'s HTML output', disabled = False, key = '-LOGBROWSER-'),sg.Button('Abort processing', button_color = 'yellow on red', tooltip = 'Mayday!!! Mayday!!!'),
            sg.Col([[sg.Col([[sg.Combo(("Display log (new window)", "HTML processing log", "PDF report (isotropic)", "PDF report (anisotropic)"), default_value = "---Results---",
-                    key = '-RESMEN-', size=(24,6), readonly = True, change_submits = True, enable_events = True, font = "Arial 12")]], size = (403, 40), justification ="left", vertical_alignment = "bottom"),
-                    sg.Button('Re-run POINTLESS', key = '-PTLESS-', tooltip = 'Send finalized data to POINTLESS. Useful for missed screw axes from in-house data.')]], key='-RESBUTS-', visible= False, justification = "left", size = (562, 40))]],key='-COL4-', visible= False),
+                    key = '-RESMEN-', size=(24,6), readonly = True, change_submits = True, enable_events = True, font = "Arial 12")]], size = (480, 40), justification ="left", vertical_alignment = "bottom"),
+                    sg.Button('Re-run POINTLESS', key = '-PTLESS-', tooltip = 'Send finalized data to POINTLESS. Useful for missed screw axes from in-house data.')]], key='-RESBUTS-', visible= False, justification = "left", size = (625, 40))]],key='-COL4-', visible= False),
           sg.Col([[sg.Text('')]], size = (None,40), key='-COLX4-', visible= True)],
           [sg.Col([[sg.HorizontalSeparator(color = '#D0D0D0')],
                    [sg.StatusBar(' \u2691  Ready.', text_color = theme_color, background_color= theme_color1, key = '-STAT-', size = (132,1))]], size = (925, 35))]]
@@ -2781,7 +2778,7 @@ while True:
                  sg.Combo(("1 slab", "5 slabs", "10 slabs", "20 slabs"), default_value = "1 slab", key ="-SLABS-", size = (8,4), readonly = True, change_submits = True, enable_events = True, visible = EIGER),
                  sg.Button("Load image", key = '-GOTOIMG-', highlight_colors = (theme_color, theme_color), tooltip = 'load given image', enable_events = True),
                  sg.Text('', size = (2, 1)),
-                 sg.Checkbox("Show resolution rings", key = '-SHOWRINGS-', default = False, enable_events = True), sg.Spin(values = ('1','2','3','4','5','6','7','8','9','10'), initial_value= "5", key='-NUMRINGS-',size=(4,1), text_color = 'black', enable_events = True, readonly = True),
+                 sg.Checkbox("Show resolution rings", key = '-SHOWRINGS-', default = False, enable_events = True), sg.Spin(values = ('1','2','3','4','5','6','7','8','9','10'), initial_value= "5", key='-NUMRINGS-', size=(4,1), text_color = theme_color, enable_events = True, readonly = True),
                  sg.Checkbox("Mark regions of potential ice rings", key = '-ICERINGS-', default = False, enable_events = True, tooltip =' Ice ring regions according to Kumai, M. (1967)')],
                 [sg.Frame(layout=[
                 [sg.Graph(canvas_size = diffractionimagesize, graph_bottom_left = (0,bottomlefty), graph_top_right = (toprightx,0), enable_events = True, drag_submits = True, key = '-IMGAREA-')]
@@ -3547,17 +3544,17 @@ while True:
                 [sg.Text('Usually, this should not be necessary!', text_color = 'red', justification = "center")],    
                 [sg.Text('', size = (12, 1)), sg.Text('X', size = (8, 1)), sg.Text('Y', size = (8, 1))],
                 [sg.Text('No. of gaps:', size = (12, 1)), 
-                 sg.Spin(values = numofgaps, initial_value= "0",key='-XGAPS-',size=(6,1), text_color = 'black', enable_events = True, readonly = True, tooltip = "Number of module gaps in X direction"),
-                 sg.Spin(values = numofgaps, initial_value= "0",key='-YGAPS-',size=(6,1), text_color = 'black', enable_events = True, readonly = True, tooltip = "Number of module gaps in Y direction")],
+                 sg.Spin(values = numofgaps, initial_value= "0",key='-XGAPS-',size=(6,1), text_color = theme_color, enable_events = True, readonly = True, tooltip = "Number of module gaps in X direction"),
+                 sg.Spin(values = numofgaps, initial_value= "0",key='-YGAPS-',size=(6,1), text_color = theme_color, enable_events = True, readonly = True, tooltip = "Number of module gaps in Y direction")],
                 [sg.Text('Scale:', size = (12, 1)), 
-                 sg.Spin(values = gscale, initial_value= "+0.0",key='-XGAPSCALE-',size=(6,1), text_color = 'black', enable_events = True, readonly = True, tooltip = "Enlarge (+) or decrease (-) distances between gaps in X"),
-                 sg.Spin(values = gscale, initial_value= "+0.0",key='-YGAPSCALE-',size=(6,1), text_color = 'black', enable_events = True, readonly = True, tooltip = "Enlarge (+) or decrease (-) distances between gaps in Y"),sg.Text("%")],
+                 sg.Spin(values = gscale, initial_value= "+0.0",key='-XGAPSCALE-',size=(6,1), text_color = theme_color, enable_events = True, readonly = True, tooltip = "Enlarge (+) or decrease (-) distances between gaps in X"),
+                 sg.Spin(values = gscale, initial_value= "+0.0",key='-YGAPSCALE-',size=(6,1), text_color = theme_color, enable_events = True, readonly = True, tooltip = "Enlarge (+) or decrease (-) distances between gaps in Y"),sg.Text("%")],
                  [sg.Text('Offset:', size = (12, 1)), 
-                  sg.Spin(values = goffset, initial_value= "+0.0",key='-XGAPOFFSET-',size=(6,1), text_color = 'black', enable_events = True, readonly = True, tooltip = "Shift gap positions along in X"),
-                  sg.Spin(values = goffset, initial_value= "+0.0",key='-YGAPOFFSET-',size=(6,1), text_color = 'black', enable_events = True, readonly = True, tooltip = "Shift gap positions along in X"),sg.Text("%")],
+                  sg.Spin(values = goffset, initial_value= "+0.0",key='-XGAPOFFSET-',size=(6,1), text_color = theme_color, enable_events = True, readonly = True, tooltip = "Shift gap positions along in X"),
+                  sg.Spin(values = goffset, initial_value= "+0.0",key='-YGAPOFFSET-',size=(6,1), text_color = theme_color, enable_events = True, readonly = True, tooltip = "Shift gap positions along in X"),sg.Text("%")],
                  [sg.Text('Width:', size = (12, 1)), 
-                  sg.Spin(values = sizeofgaps, initial_value= "0",key='-XGAPSIZE-',size=(6,1), text_color = 'black', enable_events = True, readonly = True, tooltip = "Width of X gaps"),
-                  sg.Spin(values = sizeofgaps, initial_value= "0",key='-YGAPSIZE-',size=(6,1), text_color = 'black', enable_events = True, readonly = True, tooltip = "Width of Y gaps"),sg.Text("px")],
+                  sg.Spin(values = sizeofgaps, initial_value= "0",key='-XGAPSIZE-',size=(6,1), text_color = theme_color, enable_events = True, readonly = True, tooltip = "Width of X gaps"),
+                  sg.Spin(values = sizeofgaps, initial_value= "0",key='-YGAPSIZE-',size=(6,1), text_color = theme_color, enable_events = True, readonly = True, tooltip = "Width of Y gaps"),sg.Text("px")],
                 [sg.Text('')],  
                 [sg.Button('Accept', highlight_colors = (theme_color, theme_color)), sg.Button('Cancel', highlight_colors = (theme_color, theme_color))]],title= None, title_color=theme_color, relief= None, element_justification = "left", pad = (0,0), vertical_alignment='center')]]                        
 
@@ -3706,9 +3703,9 @@ while True:
                           key = '-SWEEPSEL-', enable_events = True, size = (10,1), readonly = True, default_value = "1")]], size = (100,70)),
                           sg.Col([[sg.Text('Template:')], [sg.InputText(Template, size=(40,1), key = '-TEMPLATE-', disabled = False)]], size = (300,70)),
                           sg.Col([[sg.Text('Start:')], [sg.InputText(Start, size=(6,1), key = '-START-', disabled = False)]], size = (60,70)),
-                          sg.Col([[sg.Text('End:')], [sg.InputText(End, size=(6,1), key = '-END-', disabled = False)]], size = (343,70)),
-                          sg.Col([[sg.Text('')],[sg.Button("+", size = (1,1), tooltip = "Add image range"), sg.Button("-", size = (1,1), tooltip = " Remove last image range"), sg.Button("Clear", tooltip = "Clear list of image ranges")]], size = (155,70))], 
-                         [sg.Multiline(size=(140,10), key='-SWEEPS-', autoscroll = True, do_not_clear = True, font="Courier 9", default_text = setsweeps)],
+                          sg.Col([[sg.Text('End:')], [sg.InputText(End, size=(6,1), key = '-END-', disabled = False)]], size = (360,70)),
+                          sg.Col([[sg.Text('')],[sg.Button("+", size = (3,1), tooltip = "Add image range"), sg.Button("-", size = (3,1), tooltip = " Remove last image range"), sg.Button("Clear", size = (6,1), tooltip = "Clear list of image ranges")]], size = (135,70))], 
+                         [sg.Multiline(size=(140,10), key='-SWEEPS-', autoscroll = True, do_not_clear = True, font="Courier 11", default_text = setsweeps)],
                          [sg.Submit(), sg.Cancel()]]
 
                 window_sweeps = sg.Window(sweeptitle, layout_sweeps, no_titlebar=False, grab_anywhere=False, location = (window.current_location()[0] + 200, window.current_location()[1] + 50 ))        
@@ -3806,8 +3803,8 @@ while True:
         
         layout3 = [[sg.Frame(layout=[
                     [sg.Text('Specify input parameters as macro', font = 'Arial 12')],
-                    [sg.Text('See also http://www.globalphasing.com/autoproc/manual/appendix1.html', text_color = "blue", font = "Courier 10 underline", key='-WEB-', enable_events=True, tooltip='Click here to open browser.')],
-                    [sg.Multiline(size=(130,30), key='-PARDAT-', autoscroll = True, do_not_clear = False, font="Courier 9", default_text = custpars)],
+                    [sg.Text('See also http://www.globalphasing.com/autoproc/manual/appendix1.html', text_color = "blue", font = "Courier 12 underline", key='-WEB-', enable_events=True, tooltip='Click here to open browser.')],
+                    [sg.Multiline(size=(130,30), key='-PARDAT-', autoscroll = True, do_not_clear = False, font="Courier 11", default_text = custpars)],
                     [sg.Button('Load default template', enable_events=True, key='-DEFTEMP-'), sg.Input(key='-PARFILE-', visible=False, enable_events=True), sg.FileBrowse('Load from file', file_types = (('Parameter file', '*.*'),)),
                      sg.Input(key='-XDSINP-', visible=False, enable_events=True), sg.FileBrowse('Parameters from XDS.INP', file_types = (('XDS input file', ('*.INP', '*.INP*')),)), sg.Button('Save to file'), sg.Button('Clear'),
                      sg.Button('Accept',enable_events=True, key='-SETPAR-', button_color ="white on green"),sg.Button('Cancel',enable_events=True, key='-CANCELPAR-', button_color = "white on red") ]],
@@ -3935,7 +3932,7 @@ while True:
         m_list_par = "list"
         list_function(m_list_par)
         layout4 = [[sg.Text('Available macros', font = 'Arial 12')],
-                       [sg.Multiline(size=(120,30), key='-MLIST-', autoscroll = True, do_not_clear = True, font ="Courier 9", write_only = True)],
+                       [sg.Multiline(size=(120,30), key='-MLIST-', autoscroll = True, do_not_clear = True, font ="Courier 11", write_only = True)],
                        [sg.Button('Close'),sg.Button('Show detailed macro parameters', key = '-M_DETAILS-')]]
             
         window4 = sg.Window('Macros', layout4, no_titlebar=False, grab_anywhere=False, finalize = True, location = (window.current_location()[0] + 200, window.current_location()[1] + 50 ))
@@ -3981,7 +3978,7 @@ while True:
         else:
             logtitle = 'Data processing log from run ' + str(runnumber) + ' in ' + folder
             layout2 = [[sg.Text(logtitle, font = 'Arial 12')],
-                       [sg.Multiline(size=(160,30), key='-LOG-', autoscroll = True, do_not_clear = True, font ="Courier 9")],
+                       [sg.Multiline(size=(160,30), key='-LOG-', autoscroll = True, do_not_clear = True, font ="Courier 11")],
                        [sg.Button('Close')]]
             
             window2 = sg.Window('Processing log', layout2, no_titlebar=False, grab_anywhere=False, finalize = True, location = (window.current_location()[0] + 200, window.current_location()[1] + 50 ))
@@ -4181,7 +4178,7 @@ while True:
             print("")
             print("Processing did not finish properly, nothing there to check!")
         else:
-            layout_ptless = [[sg.Multiline(size=(75,20), key='-POINTLESS-', write_only = True, autoscroll = True, do_not_clear = True, font="Courier 9")],
+            layout_ptless = [[sg.Multiline(size=(75,20), key='-POINTLESS-', write_only = True, autoscroll = True, do_not_clear = True, font="Courier 11")],
                             [sg.Col([[sg.Button('Dismiss', highlight_colors = (theme_color, theme_color)),sg.Text("Running Pointless, please wait!", text_color = "blue", justification ="center", key ='-PL_STAT-', size = (64, None))]], size =(545,60))]]
 
             window_ptless = sg.Window("POINTLESS says:", layout_ptless, no_titlebar=False, grab_anywhere=False, finalize = True, location = (window.current_location()[0] + 200, window.current_location()[1] + 50 ))
