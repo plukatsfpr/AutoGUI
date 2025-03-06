@@ -25,7 +25,7 @@ So far, AutoGUI is developed, tested and routinely used on a server running open
 
 ## How can I set it up? 
 ### Preparation
-1. Extract the AutoGUI files to a folder on your system where you want it to be located.  
+1. Extract the AutoGUI files matching your OS to a folder on your system where you want it to be located.  
 2. First check if all external programs (autoPROC, CCP4i, ImagMagic and Adxv) are installed and in the path. (Adxv does not need to be in the path, the location of it is set in the next step.)
 3. Adjust the at least the parameters marked as required (and ideally also the rest) in 'autogui.cfg' to match your setup.
 ### Automatic setup
