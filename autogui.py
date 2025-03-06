@@ -156,19 +156,18 @@ def screen_info():
     while True:
         check_screen_command = 'screen -ls'
         screencheck = re.compile(user)
+        screendiscard = re.compile('Socket')
         check_screen = subprocess.Popen(check_screen_command, stdout=subprocess.PIPE, universal_newlines=True, shell=True)
         output = (check_screen.stdout.readlines())
         for line in output:
             line = line.strip()
             #print(line)
-            if screencheck.search(line) != None:
+            if (screencheck.search(line) != None) and (screendiscard.search(line) == None):
                 screenarg = (re.split("[\. \(\)]+", line))
                 screenarg.pop()
                 screenargs.append(screenarg)
                 #for screenarg in screenargs:
-                    #print(screenarg)
-        if screenargs != []:
-            screenargs.pop()        
+                    #print(screenarg)      
         return screenargs
         break  
 
@@ -1256,11 +1255,10 @@ while True:
                 screenid = values_screen['-SCREENID-']
                 window_screen.close()               
                 window.close()
-                window_screen.close()
-                layout_screen = None
-                window_screen = None
-                layout = None
-                window = None
+                #layout_screen = None
+                #window_screen = None
+                #layout = None
+                #window = None
                 gc.collect()
                 connect_command = 'screen -r -x ' + screenid
                 os.system(connect_command)
