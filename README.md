@@ -42,6 +42,9 @@ It is highly recommended to use the automatic setup script, as this avoids messi
 
 ## Handbook
 COMING SOON
+There is a conference poster available as a preview: 
+##### https://github.com/plukatsfpr/AutoGUI/releases/download/v20250307/AutoGUI_Poster_DGK_2025.pdf
+This will (hopefully) soon be replaced by a handbook.
 
 ## How do I cite AutoGUI?
 ### There is (currently) no literature citation for AutoGUI.
@@ -75,3 +78,4 @@ and Bricogne, G. (2018-2021). STARANISO. Cambridge, United Kingdom: Global Phasi
 - AutoGUI is also using Adxv:
 Arvai, A. Adxv - A Program to Display X-ray Diffraction Images
 https://www.scripps.edu/tainer/arvai/adxv.html
+
