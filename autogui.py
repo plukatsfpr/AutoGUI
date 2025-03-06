@@ -95,6 +95,7 @@ personal_config = os.path.join(os.path.expanduser('~'), ".autogui_priv.cfg")    
 welcome = "Welcome to AutoGUI " + version + "\na python-based GUI for running GPhL autoPROC"
 win_title = 'AutoGUI-Launcher ' + version
 
+connect_command = None
 task = None
 debug = False
 found_results = []
@@ -155,19 +156,18 @@ def screen_info():
     while True:
         check_screen_command = 'screen -ls'
         screencheck = re.compile(user)
+        screendiscard = re.compile('Socket')
         check_screen = subprocess.Popen(check_screen_command, stdout=subprocess.PIPE, universal_newlines=True, shell=True)
         output = (check_screen.stdout.readlines())
         for line in output:
             line = line.strip()
             #print(line)
-            if screencheck.search(line) != None:
+            if (screencheck.search(line) != None) and (screendiscard.search(line) == None):
                 screenarg = (re.split("[\. \(\)]+", line))
                 screenarg.pop()
                 screenargs.append(screenarg)
                 #for screenarg in screenargs:
-                    #print(screenarg)
-        if screenargs != []:
-            screenargs.pop()        
+                    #print(screenarg)      
         return screenargs
         break  
 
@@ -1210,6 +1210,7 @@ while True:
                 layout_kill = None
                 window_kill = None
                 gc.collect()
+                time.sleep(1)
                 break
             if event_kill == 'Kill':
                 window_kill.close()
@@ -1221,6 +1222,7 @@ while True:
                 os.system(kill_command)
                 stat = 'Terminated screen: ' + screenid
                 print(stat)
+                time.sleep(1)
                 break
 
     # Reattach screen session                    
@@ -1252,17 +1254,26 @@ while True:
                 gc.collect()
                 break
             if event_screen == 'Connect':
-                screenid = values_screen['-SCREENID-']
+                screenid = values_screen['-SCREENID-'].strip()
                 window_screen.close()               
                 window.close()
-                window_screen.close()
-                layout_screen = None
-                window_screen = None
-                layout = None
-                window = None
+                #layout_screen = None
+                #window_screen = None
+                #layout = None
+                #window = None
                 gc.collect()
                 connect_command = 'screen -r -x ' + screenid
-                os.system(connect_command)
+                print('')
+                print('=======================================================')
+                print('')
+                print("Reconnecting to a session is currently not supported on MacOS.")
+                print('Please copy the following line into your terminal:')
+                print('')
+                print(connect_command)
+                print('')
+                print('=======================================================')
+                print('')
+                #subprocess.run(connect_command, shell = True)
                 break                    
 
     # quit
@@ -1311,7 +1322,7 @@ elif task == 'batch':
     while True:
         sessionid = "autogui_" + user + "_" + str(n)
         check_screen_command = 'screen -ls'
-        screencheck = re.compile("[0-9]*\."+ sessionid)
+        screencheck = re.compile("[0-9]*\.?"+ sessionid)
         check_screen = subprocess.Popen(check_screen_command, stdout=subprocess.PIPE, universal_newlines=True, shell=True)
         output = (check_screen.stdout.readlines())
         m = n
@@ -1324,12 +1335,19 @@ elif task == 'batch':
             print('')
             print('screen session id is:', sessionid)
             print('')
+            print('=======================================================')
+            print('')
+            print('To reattach your session to the terminal\ngo to "Connect to running batch job"\nfrom the menu of the AutoGUI Launcher\nand select session:')
+            print(sessionid)
+            print('')
+            print('=======================================================')
+            print('')
             break                 
     if debug == True:
-        screen_command = 'screen -S ' + sessionid + ' ' + sys.executable + ' ' + batch_path + ' ' + sessionid + ' debug | tee autogui.debug.log 2>&1'
+        screen_command = 'screen -dmS ' + sessionid + ' ' + sys.executable + ' ' + batch_path + ' ' + sessionid + ' debug | tee autogui.debug.log 2>&1'
     else:
-        screen_command = 'screen -S ' + sessionid + ' ' + sys.executable + ' ' + batch_path + ' ' + sessionid
-    os.system(screen_command)    
+        screen_command = 'screen -dmS ' + sessionid + ' ' + sys.executable + ' ' + batch_path + ' ' + sessionid
+    os.system(screen_command)  
 
 else:
     print('')
