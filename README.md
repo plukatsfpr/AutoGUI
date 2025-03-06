@@ -43,7 +43,7 @@ It is highly recommended to use the automatic setup script, as this avoids messi
 ## Handbook
 COMING SOON
 There is a conference poster available as a preview: 
-##### (https://github.com/plukatsfpr/AutoGUI/releases/download/v20250307/AutoGUI_Poster_DGK_2025.pdf)
+##### https://github.com/plukatsfpr/AutoGUI/releases/download/v20250307/AutoGUI_Poster_DGK_2025.pdf
 This will (hopefully) soon be replaced by a handbook.
 
 ## How do I cite AutoGUI?
