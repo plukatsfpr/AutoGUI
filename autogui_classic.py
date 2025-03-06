@@ -17,7 +17,8 @@
 #    along with AutoGUI.  If not, see <http://www.gnu.org/licenses/>.
 
 
-version = 'v.20250301'                             # current version
+version = 'v.20250307'                             # current version
+# LINUX!
 
 # Dependencies required:
 # FreeSimpleGUI (pip install FreeSimpleGUI)
@@ -58,6 +59,7 @@ light_theme_color = 'white'
 
 # Python stuff starts here
 
+# import PySimpleGUI as sg
 import FreeSimpleGUI as sg
 import time
 import subprocess
@@ -455,7 +457,10 @@ def timer_function(dumppath):
 # thread for coordinate info deletion timer       
 def coordel_thread(coordel_timeout):
     time.sleep(coordel_timeout)
-    window_imageview.write_event_value('-COORDTIMESUP-', True)
+    try:
+        window_imageview.write_event_value('-COORDTIMESUP-', True)
+    except:
+        pass
 
 # helper function for coordinate info deletion timer  
 def coordel_timer(coordel_timeout):

@@ -17,7 +17,8 @@
 #    along with AutoGUI.  If not, see <http://www.gnu.org/licenses/>.
 
 
-version = 'v.20250301'                             # current version
+version = 'v.20250307'                             # current version
+# LINUX!
 
 # Dependencies required:
 # FreeSimpleGUI (pip install FreeSimpleGUI)
@@ -57,6 +58,7 @@ theme_color_rgb = [69, 142, 175]
 
 
 
+# import PySimpleGUI as sg
 import FreeSimpleGUI as sg
 import subprocess
 import os
@@ -165,7 +167,8 @@ def screen_info():
                 screenargs.append(screenarg)
                 #for screenarg in screenargs:
                     #print(screenarg)
-        screenargs.pop()        
+        if screenargs != []:
+            screenargs.pop()        
         return screenargs
         break  
 
@@ -181,7 +184,7 @@ def export_results(exporttype, exportpath, filetoexport, find_path, table_values
         absolute_table_path = os.path.join(find_path,table_value[2].strip("./"))
         relative_table_path = os.path.relpath(absolute_table_path, exportpath)
         table_value.append(absolute_table_path)
-        table_value.append(absolute_table_path)
+        table_value.append(relative_table_path)
         print(absolute_table_path)
         path_with_stuff = re.split("/[^/]+$", absolute_table_path)[0]
         csv_read = []

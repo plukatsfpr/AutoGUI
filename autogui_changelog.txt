@@ -1,5 +1,8 @@
 ===AutoGUI version history ===
 
+v.20250307
+- First version alkso supporting MacOS
+
 v.20250301
 - First version to be uploaded to GitHub
 - Required to switch from PySimpleGUI to FreeSimpleGUI

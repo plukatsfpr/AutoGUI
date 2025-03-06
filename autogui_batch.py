@@ -17,7 +17,8 @@
 #    along with AutoGUI.  If not, see <http://www.gnu.org/licenses/>.
 
 
-version = 'v.20250301'                             # current version
+version = 'v.20250307'                             # current version
+# LINUX!
 
 # Dependencies required:
 # FreeSimpleGUI (pip install FreeSimpleGUI)
@@ -44,6 +45,7 @@ light_theme_color = 'white'
 
 
 
+# import PySimpleGUI as sg
 import FreeSimpleGUI as sg
 import time
 import subprocess
