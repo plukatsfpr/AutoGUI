@@ -26,7 +26,7 @@ So far, AutoGUI is developed, tested and routinely used on a server running open
 ## How can I set it up? 
 ### Preparation
 1. Download AutoGUI for your OS:
-    #### https://github.com/plukatsfpr/AutoGUI/releases/download/v20250307/AutoGUI_v20250607_LINUX.zip
+    #### https://github.com/plukatsfpr/AutoGUI/releases/download/v20250307/AutoGUI_v20250307_LINUX.zip
     #### https://github.com/plukatsfpr/AutoGUI/releases/download/v20250307/AutoGUI_v20250607_MAC.zip
 2. Extract the AutoGUI files matching your OS to a folder on your system where you want it to be located.  
 3. First check if all external programs (autoPROC, CCP4i, ImagMagic and Adxv) are installed and in the path. (Adxv does not need to be in the path, the location of it is set in the next step.)
