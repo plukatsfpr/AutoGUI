@@ -1441,7 +1441,10 @@ if len(sys.argv) != 1:
     print('Running in screen with ID: ' + screenid)
     print('')
     win_title = 'AutoGUI-BATCHelor ' + version + ' running in screen: ' + screenid
-    kill_visible = False
+    if screenid == 'dummy_screen_id':
+        kill_visible = True
+    else:    
+        kill_visible = False
     if len(sys.argv) >= 3:
         print('***DEBUG MODE***')
         print("All output will be saved into 'autogui_debug.log'")
@@ -1532,8 +1535,7 @@ layout = [[sg.Frame(layout= [
                                         ], size = (170,40), vertical_alignment ="center")]    
                                     ], title='Add/remove datasets',title_color=theme_color2, relief=sg.RELIEF_GROOVE, vertical_alignment ="center"),
                                 sg.Frame(layout=[  
-                                  [sg.Column([[sg.Combo(("CC(1/2) >= 0.3 (default)", "I/sig(I) >= 2.0 (mostly)"), default_value = "CC(1/2) >= 0.3 (default)", key = '-CUTMODESEL-', size =(22, None)
-                                                                             , readonly = True, change_submits = True, enable_events = True
+                                  [sg.Column([[sg.Combo(("CC(1/2) >= 0.3 (default)", "I/sig(I) >= 2.0 (mostly)"), default_value = "CC(1/2) >= 0.3 (default)", key = '-CUTMODESEL-', size =(22, None), readonly = True, change_submits = True, enable_events = True
                                                                              , tooltip = "New default behavior: Cutoff determination only based on CC(1/2) >= 0.3\nOld default behavior: Cutoff determined depending on I/sig(I) >= 2.0 (mostly), CC(1/2) >= 0.3, Rpim <= 0.6")]], size = (180,40), vertical_alignment ="center")]
                                 ], title='High resolution cutoff criteria',title_color=theme_color2, relief=sg.RELIEF_GROOVE, vertical_alignment ="center"),
                                 sg.Frame(layout=[   
@@ -2037,6 +2039,7 @@ while True:
     if event == '-KILL-':
         layout_kill = [[sg.Text(" \u2620   Enter PID of the previous job to kill   \u2620 ", justification = "center")],
                        [sg.InputText(default_text='', key = '-PIDKILL-', size = (37, None), disabled = False, tooltip = "Enter launch codes.\nErr...I mean PID of a hanging batch processing job.")],
+                       [sg.Text('The PID can be found in the lower right\ncorner of the corresponding "batchproc.html.')],
                        [sg.Button('Kill', tooltip = 'Fire'), sg.Button('Cancel')]]
         window_kill = sg.Window('The Football \u2620', layout_kill, no_titlebar=False, grab_anywhere=False, location = (window.current_location()[0] + 200, window.current_location()[1] + 50 ))
         while True:
@@ -2103,7 +2106,7 @@ while True:
 
 # set cutoff determination mode       
     if event == '-CUTMODESEL-':
-        if values['-CUTMODESEL-'] == "I/sig(I) >= 2.0 (mainly)":
+        if values['-CUTMODESEL-'] == "I/sig(I) >= 2.0 (mostly)":
             oldcutoffmode = True
         else:
             oldcutoffmode = False
@@ -2245,21 +2248,44 @@ while True:
             PID = int(screenargs[0])
             screenstatus = screenargs[2]
             kill_message = "Screen ID of this job is: " + screenid
-            kill_text = 'In case the processing job hangs, you will have\nto kill it and its descendant processes using the\n"Kill previous job" function from the GUI.\nEnter Screen ID of the hanging process,\ndisplayed at the bottom of the batch processing log.\n'
+            kill_text = 'In case the processing job hangs, you will have\nto kill it and its descendant processes using the\n"Kill previous batch job" function from the Launcher.\nEnter Screen ID of the hanging process,\ndisplayed at the bottom of the batch processing log.\n'
         else:    
             PID = os.getpid()
             kill_message = "PID of this job is: " + str(PID)
-            kill_text = 'In case the processing job hangs, you will have\nto kill it and its descendant processes using the\n"Kill previous job" function from the GUI.\nEnter PID of the hanging process, displayed in the\nlower right corner of the batch processing log.\n'
+            kill_text = 'In case the processing job hangs, you will have\nto kill it and its descendant processes using the\n"Kill previous job" function from the Batch GUI.\nEnter PID of the hanging process, displayed in the\nlower right corner of the batch processing log.\n'
         start_message = "Start batch processing of " + str(num_sets) + " datasets?"
-        layout5 = [[sg.Text(start_message, justification = "center", font = "Arial 12")],
+        if (sys.platform == 'darwin') and (screen == True):
+            browser_msg = "Please start your browser:\n\n" + browser + "\n\nbefore it is started automatically\nto prevent it from closing when processing is finished!"
+            screen_msg = 'MacOS currently prevents screen from starting attached.\nTo be able to see the terminal output from AutoGUI Batch,\nplease type the following line into your terminal:\n\nscreen -r -x ' + screenid
+            layout5 = [[sg.Text(start_message, justification = "center", font = "Arial 12")],
                    [sg.Text('')],
-                   [sg.Text("The GUI will close when started and the\nprocessing log will open in a browser window.", justification = "center")],
+                   [sg.HorizontalSeparator(color = None)],
+                   [sg.Text("Attention Mac users!", justification = "center", font = "Arial 12", text_color = "red")],
+                   [sg.Text(screen_msg)],
+                   [sg.Text('')],
+                   [sg.Text(browser_msg)],
+                   [sg.Text('Alternatively, locate "batchproc.html" after starting\ndata processing and open it in a different browser.')],
+                   [sg.HorizontalSeparator(color = None)],
+                   [sg.Text('')],
+                   [sg.Text("The GUI will close when started and the\nprocessing log will open in a browser window.")],
                    [sg.Text('')],
                    [sg.Button(' Yes ', highlight_colors = (theme_color, theme_color)), sg.Button(' No ', highlight_colors = (theme_color, theme_color))],
                    [sg.Text('')],
                    [sg.HorizontalSeparator(color = None)],
                    [sg.Text(kill_message)], 
-                   [sg.Text(kill_text, text_color = '#A0A0A0')]]
+                   [sg.Text(kill_text, text_color = '#A0A0A0')],
+                   [sg.Text('')],
+                   [sg.Text('If there are additional problems with detached operation\nof AutoGUI Batch, consider deactivating the use of screen\nin your AutoGUI preferences.', text_color = '#A0A0A0')]]
+        else:    
+            layout5 = [[sg.Text(start_message, justification = "center", font = "Arial 12")],
+                    [sg.Text('')],
+                    [sg.Text("The GUI will close when started and the\nprocessing log will open in a browser window.", justification = "center")],
+                    [sg.Text('')],
+                    [sg.Button(' Yes ', highlight_colors = (theme_color, theme_color)), sg.Button(' No ', highlight_colors = (theme_color, theme_color))],
+                    [sg.Text('')],
+                    [sg.HorizontalSeparator(color = None)],
+                    [sg.Text(kill_message)], 
+                    [sg.Text(kill_text, text_color = '#A0A0A0')]]
         window5 = sg.Window('Ready to start?', layout5, no_titlebar=False, grab_anywhere=False, location = (window.current_location()[0] + 200, window.current_location()[1] + 50 ))
         while True:
             event5, values5 = window5.read()
