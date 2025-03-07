@@ -41,6 +41,7 @@ outpath = "~"                                          # change this to default 
 preplist = 'refine coot phaser xtriage autobuild pdb_deposit ccp4 pymol' # list of folders to create if "prepare folders" is checked. "autoproc" is required and will always be created. "images" will be created if linking image files is enabled. "beamline_processed" will be created if linking of beamline-processed data is enabled and such data is found.
 prepfolder_classic = True
 prepfolder_batch = True
+use_screen = True
 
 theme_highlight_color = '#458eaf'
 dark_theme_color = '#2b2a32' 
@@ -455,7 +456,7 @@ def browser_thread(window):
 def open_browser(browser, browser_target):
     threading.Thread(target=browser_thread, args=(window,), daemon=True).start()
 
-def save_preferences(dark_theme, theme_highlight_color, prepfolder_classic, prepfolder_batch, preplist, inpath, outpath):
+def save_preferences(dark_theme, theme_highlight_color, prepfolder_classic, prepfolder_batch, preplist, inpath, outpath, use_screen):
     f = open(personal_config, "w")
     f.write('# Use dark theme?\n')
     prefline = 'dark_theme = ' + str(dark_theme) + '\n\n'
@@ -477,6 +478,9 @@ def save_preferences(dark_theme, theme_highlight_color, prepfolder_classic, prep
     f.write(prefline)  
     f.write('# Default output root path?\n')
     prefline = 'outpath = ' + str(outpath) + '\n\n'
+    f.write(prefline)
+    f.write('# Use "screen" for detached execution of autoGUI batch?\n')
+    prefline = 'use_screen = ' + str(use_screen) + '\n\n'
     f.write(prefline)         
     f.close()
     print("Wrote", personal_config)  
@@ -573,6 +577,7 @@ if os.path.exists(personal_config) == True:
     cfg_prepbatch = re.compile("prepfolder_batch = ")
     cfg_dark = re.compile("dark_theme = ")  
     cfg_highlight = re.compile("theme_highlight_color = ")
+    cfg_screen = re.compile("use_screen = ")
     with open (personal_config, 'rt') as config:
         for line in config:
             line = line.strip() 
@@ -601,7 +606,13 @@ if os.path.exists(personal_config) == True:
             if cfg_preplist.search(line) != None:
                 preplist = (re.split(cfg_preplist, line))[-1]  
             if cfg_highlight.search(line) != None:
-                theme_highlight_color = (re.split(cfg_highlight, line))[-1]                                               
+                theme_highlight_color = (re.split(cfg_highlight, line))[-1]
+            if cfg_screen.search(line) != None:
+                use_screen = (re.split(cfg_screen, line))[-1]
+                if use_screen == ("True" or "true" or "TRUE" or "y" or "Y" or "yes" or "Yes" or "YES"):
+                    use_screen = True
+                else:
+                    use_screen = False
     config.close()
 else:
     print('')
@@ -834,6 +845,8 @@ while True:
                             [sg.InputText(default_text=preplist,key='-PREPLIST-',size=(55,1))],
                             [sg.Checkbox("Make subfolders in CLASSIC mode", key = '-CLASSICFOLDER-', default= prepfolder_classic, enable_events = True)], 
                             [sg.Checkbox("Make subfolders in BATCH mode", key = '-BATCHFOLDER-', default= prepfolder_batch, enable_events = True)],
+                            [sg.Text('')],
+                            [sg.Checkbox('Enable "screen" for detached execution of BATCH mode', key = '-USESCREEN-', default= use_screen, enable_events = True, text_color = '#D0D0D0', tooltip= 'Do not deactivate this unless you have problems\nwith running AutoGUI Batch via "screen".')],
                             [sg.Text('')]],
                             size = (410, 400))]], 
                             title = "Settings", title_color=theme_color, relief=sg.RELIEF_GROOVE)],
@@ -946,6 +959,7 @@ while True:
                 preplist = values_personal_settings['-PREPLIST-']
                 prepfolder_classic = values_personal_settings['-CLASSICFOLDER-']
                 prepfolder_batch = values_personal_settings['-BATCHFOLDER-']
+                use_screen = values_personal_settings['-USESCREEN-']
 
                 sg.theme_background_color(theme_color1)
                 sg.theme_text_color(theme_color2)
@@ -957,7 +971,7 @@ while True:
                 sg.theme_slider_color(theme_color)
                 sg.theme_progress_bar_color((theme_color, '#D0D0D0'))
             
-                save_preferences(dark_theme, theme_highlight_color, prepfolder_classic, prepfolder_batch, preplist, inpath, outpath)
+                save_preferences(dark_theme, theme_highlight_color, prepfolder_classic, prepfolder_batch, preplist, inpath, outpath, use_screen)
                 sg.popup('Preferences saved & applied.\nA restart of AutoGUI might be required for all settings to take effect.')
                 window_personal_settings.close()
                 #layout_personal_settings = None
@@ -1200,7 +1214,7 @@ while True:
             found_msg = 'Select session'
             found_disabled = False 
         layout_kill = [[sg.Text("\u2620  Select session ID to kill:  \u2620", justification = "center")],
-                       [sg.Combo((foundscreens),default_value= found_msg, key = '-KILLID-', size = (24, None), readonly = True, disabled = found_disabled, tooltip = 'Select screen session to nuke.')],
+                       [sg.Combo((foundscreens),default_value= found_msg, key = '-KILLID-', size = (24, None), readonly = True, disabled = found_disabled, tooltip = 'Select "screen" session to nuke.')],
                        [sg.Button('Kill', tooltip = 'Fire', button_color = 'white on red', disabled = found_disabled), sg.Button('Cancel')]]
         window_kill= sg.Window('The Football \u2620', layout_kill, no_titlebar=False, alpha_channel=1, grab_anywhere=False, location = (window.current_location()[0] + 200, window.current_location()[1] + 50 ))
         while True:
@@ -1263,17 +1277,21 @@ while True:
                 #window = None
                 gc.collect()
                 connect_command = 'screen -r -x ' + screenid
-                print('')
-                print('=======================================================')
-                print('')
-                print("Reconnecting to a session is currently not supported on MacOS.")
-                print('Please copy the following line into your terminal:')
-                print('')
-                print(connect_command)
-                print('')
-                print('=======================================================')
-                print('')
-                #subprocess.run(connect_command, shell = True)
+                if sys.platform == 'darwin':
+                    screen_popup_msg = ('Reconnecting to a session is currently not supported on MacOS.\nPlease type the following line into your terminal:\n\n' + connect_command + '\n')
+                    sg.popup(screen_popup_msg, title = "Attention Mac users!")
+                    print('')
+                    print('=======================================================')
+                    print('')
+                    print("Reconnecting to a session is currently not supported on MacOS.")
+                    print('Please copy the following line into your terminal:')
+                    print('')
+                    print(connect_command)
+                    print('')
+                    print('=======================================================')
+                    print('')
+                else:    
+                    os.system(connect_command)
                 break                    
 
     # quit
@@ -1316,41 +1334,64 @@ elif task == 'batch':
     print('')
     print('Starting AutoGUI in BATCH mode for multi dataset processing.')
     print('')
-    n = 1
-    m = n
-    user = pwd.getpwuid(os.getuid()).pw_name
-    while True:
-        sessionid = "autogui_" + user + "_" + str(n)
-        check_screen_command = 'screen -ls'
-        screencheck = re.compile("[0-9]*\.?"+ sessionid)
-        check_screen = subprocess.Popen(check_screen_command, stdout=subprocess.PIPE, universal_newlines=True, shell=True)
-        output = (check_screen.stdout.readlines())
+    if use_screen != True:
+        if debug == True:
+            batch_command = sys.executable + ' ' + batch_path + ' ' + "dummy_screen_id" + ' debug | tee autogui.debug.log 2>&1'
+        else:
+            batch_command = sys.executable + ' ' + batch_path
+    else:        
+        n = 1
         m = n
-        for line in output:
-            line = line.strip()
-            if screencheck.search(line) != None:
-                print(line)
-                n += 1
-        if m == n:
-            print('')
-            print('screen session id is:', sessionid)
-            print('')
-            print('=======================================================')
-            print('')
-            print('To reattach your session to the terminal\ngo to "Connect to running batch job"\nfrom the menu of the AutoGUI Launcher\nand select session:')
-            print(sessionid)
-            print('')
-            print('=======================================================')
-            print('')
-            break                 
-    if debug == True:
-        screen_command = 'screen -dmS ' + sessionid + ' ' + sys.executable + ' ' + batch_path + ' ' + sessionid + ' debug | tee autogui.debug.log 2>&1'
-    else:
-        screen_command = 'screen -dmS ' + sessionid + ' ' + sys.executable + ' ' + batch_path + ' ' + sessionid
-    os.system(screen_command)  
+        user = pwd.getpwuid(os.getuid()).pw_name
+        while True:
+            sessionid = "autogui_" + user + "_" + str(n)
+            check_screen_command = 'screen -ls'
+            screencheck = re.compile("[0-9]*\.?"+ sessionid)
+            check_screen = subprocess.Popen(check_screen_command, stdout=subprocess.PIPE, universal_newlines=True, shell=True)
+            output = (check_screen.stdout.readlines())
+            m = n
+            for line in output:
+                line = line.strip()
+                if screencheck.search(line) != None:
+                    print(line)
+                    n += 1
+            if m == n:
+                print('')
+                print('screen session id is:', sessionid)
+                print('')
+                if sys.platform == 'darwin':
+                    screen_popup_msg = ('MacOS currently prevents "screen" from starting attached.\nTo be able to see the terminal output from AutoGUI Batch,\nplease type the following line into your terminal:\n\nscreen -r -x ' + sessionid + '\n\nRunning AutoGUI Batch with its "screen" attached also\nprevents browser windows from closing automatically,\nif the browser was launched directly from the AutoGUI Batch process.')
+                    sg.popup(screen_popup_msg, title = "Attention Mac users!")
+                    print('=======================================================================')
+                    print('')
+                    print('***** ATTENTION *****')
+                    print('')
+                    print('MacOS currently prevents "screen" from starting attached.')
+                    print('To be able to see the terminal output from AutoGUI Batch,')
+                    print('please copy this into your terminal:')
+                    print('')
+                    print("screen -r -x ", sessionid)
+                    print('')
+                    print('Running AutoGUI Batch with its "screen" attached also')
+                    print('prevents browser windows from closing automatically,')
+                    print('if the browser was launched directly from the AutoGUI Batch process.')
+                    print('')
+                    print('=======================================================================')
+                    print('')
+                break  
+        if sys.platform == 'darwin':                   
+            if debug == True:
+                batch_command = 'screen -dmS ' + sessionid + ' ' + sys.executable + ' ' + batch_path + ' ' + sessionid + ' debug | tee autogui.debug.log 2>&1'
+            else:
+                batch_command = 'screen -dmS ' + sessionid + ' ' + sys.executable + ' ' + batch_path + ' ' + sessionid
+        else:
+            if debug == True:
+                batch_command = 'screen -S ' + sessionid + ' ' + sys.executable + ' ' + batch_path + ' ' + sessionid + ' debug | tee autogui.debug.log 2>&1'
+            else:
+                batch_command = 'screen -S ' + sessionid + ' ' + sys.executable + ' ' + batch_path + ' ' + sessionid        
+    os.system(batch_command)  
 
 else:
     print('')
     print('Closing.')
     print('')
-    

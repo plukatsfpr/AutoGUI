@@ -2,6 +2,8 @@
 
 v.20250307
 - First version alkso supporting MacOS
+- Use of screen for detachin Batch mode can be disabled. (Might be necessary on some Macs.)
+- Bugfixes
 
 v.20250301
 - First version to be uploaded to GitHub
