@@ -105,6 +105,7 @@ find_path = outpath
 find_number = '20'
 classicresults = True
 batchresults = True
+follow_symlinks = True
 default_table_values = [['         ','         ','                                                ']]
 table_values = default_table_values
 include_commandline = True
@@ -112,7 +113,7 @@ exclude_failed = False
 logtitle = "AutoGUI Logfiles"
 
 # Helper function to find last results
-def get_results(classicresults, batchresults,find_path,find_number):
+def get_results(classicresults, batchresults,find_path,find_number, follow_symlinks):
     found_results = []
     user = pwd.getpwuid(os.getuid()).pw_name
     if classicresults == True and batchresults == False:
@@ -123,10 +124,14 @@ def get_results(classicresults, batchresults,find_path,find_number):
         searchvar = '-type f \( -name "autogui_log.html" -o -name "batchproc.html" \)' 
     findcheck1 = re.compile("autogui_log.html")
     findcheck2 = re.compile("batchproc.html")
-    if sys.platform == 'darwin':
-        find_command = "find " + find_path + " " + searchvar + " -user " + user + " -exec stat -f '%m %N' {} \; | sort -nr | awk 'NR==1,NR==" + find_number +" {print $2}'" # darwin
+    if follow_symlinks == True:
+        find_par = "-L "
     else:
-        find_command = "find " + find_path + " " + searchvar + " -user " + user + " -exec stat -c '%Y %n' {} \; | sort -nr | awk 'NR==1,NR==" + find_number +" {print $2}'" # Linux
+        find_par = "-P "    
+    if sys.platform == 'darwin':
+        find_command = "find " + find_par + find_path + " " + searchvar + " -user " + user + " -exec stat -f '%m %N' {} \; | sort -nr | awk 'NR==1,NR==" + find_number +" {print $2}'" # darwin
+    else:
+        find_command = "find " + find_par + find_path + " " + searchvar + " -user " + user + " -exec stat -c '%Y %n' {} \; | sort -nr | awk 'NR==1,NR==" + find_number +" {print $2}'" # Linux
     while True:
         find_results = subprocess.Popen(find_command, stdout=subprocess.PIPE, universal_newlines=True, shell=True)
         output = (find_results.stdout.readlines())
@@ -999,7 +1004,7 @@ while True:
                                     sg.Col([[sg.Text('Search path root:',size=(20,1))],
                                     [sg.InputText(default_text=find_path,key='-LOGROOT-',size=(33,1))],
                                     [sg.Text("Processing results to recover:"), sg.InputText(default_text=find_number,key='-LOGMAXNUM-',size=(6,2))],
-                                    [sg.Text('')],
+                                    [sg.Checkbox("Follow symbolic links", key = '-SYMLINKS-', default= follow_symlinks)],
                                     [sg.Text('')] 
                                     ], size = (230, 125)),
                                     sg.Col ([[sg.Text('')],
@@ -1033,12 +1038,14 @@ while True:
                 defaultsearchpath = os.path.expanduser('~')
                 window_findconfig['-LOGROOT-'].update(defaultsearchpath)
                 window_findconfig['-LOGMAXNUM-'].update('20')
+                window_findconfig['-SYMLINKS-'].update(True)
                 find_number = values_findconfig['-LOGMAXNUM-']
             if event_findconfig == 'Search':
                 find_path = values_findconfig['-LOGROOT-']
                 find_number = values_findconfig['-LOGMAXNUM-']
                 classicresults = values_findconfig['-CLASSICRESULTS-']
                 batchresults = values_findconfig['-BATCHRESULTS-']
+                follow_symlinks = values_findconfig['-SYMLINKS-']
                 if classicresults == False and batchresults == False:
                     classicresults = True
                     batchresults = True
@@ -1048,7 +1055,7 @@ while True:
                 print(stat)
                 window_findconfig['-STATUSBAR-'].update(stat)
                 window_findconfig.refresh()
-                found_results = get_results(classicresults,batchresults,find_path,find_number)
+                found_results = get_results(classicresults,batchresults,find_path,find_number, follow_symlinks)
                 if len(found_results) > 0:
                     stat = 'Found ' + str(len(found_results)) + ' results from previous jobs.'
                     print(stat)
