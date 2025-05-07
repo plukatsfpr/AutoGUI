@@ -838,6 +838,7 @@ def HTML_log(runnumber, dumppath, refresh):
     f.write('	  </iframe>\n')
     f.write('</body>\n')
     f.write('</html>\n')
+    time.sleep(0.5)
     f.close()    
 
 # helper function to load default template
@@ -4059,6 +4060,7 @@ while True:
         print('')
         refresh = False
         HTML_log(runnumber, dumppath, refresh)
+        time.sleep(1)
         window['-RESBUTS-'].update(visible = True)
         window['-RUN-'].update(disabled = False)
         window['-RUN-'].update(button_color ="white on green")        
@@ -4551,6 +4553,7 @@ while True:
             window['-COLX4-'].update(visible = hFlag)
             refresh = True
             HTML_log(runnumber, dumppath, refresh)
+            time.sleep(1)
 
             # set parameters
             if EIGER == True and h52cbf == True:
