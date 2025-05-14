@@ -371,6 +371,7 @@ def HTML_log(j, procpath, refresh, theme_color, theme_color1, theme_color2):
     f.write('	  </iframe>\n')
     f.write('</body>\n')
     f.write('</html>\n')
+    time.sleep(0.5)
     f.close()
 
 
@@ -401,6 +402,7 @@ def prepare_proc_console(dumppath, theme_color, theme_color1, theme_color2):
     f.write('</head>\n')	
     f.write('<body style="background-color:'+ theme_color +';">\n')
     f.close()
+    time.sleep(0.5)
     proc_log = os.path.join(dumppath, "HTML/proc_log.html")
     f = open(proc_log, "w")
     f.write('<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"\n')
@@ -425,6 +427,7 @@ def prepare_proc_console(dumppath, theme_color, theme_color1, theme_color2):
     f.write('</head>\n')	
     f.write('<body style="background-color:'+ theme_color +';">\n')
     f.close()
+    time.sleep(0.5)
 
 # helper function to create batchproc.html
 def HTML_outer(num_sets, oldcutoffmode, theme_color, theme_color1, theme_color2):
@@ -568,6 +571,7 @@ def HTML_outer(num_sets, oldcutoffmode, theme_color, theme_color1, theme_color2)
     f.write('</body>\n')
     f.write('</html>\n')
     f.close()
+    time.sleep(0.5)
     
 # helper function to fill page with results
 def HTML_batch(start_t, job_t, PID, screenid, screenstatus, refresh_main, dumppath, num_sets, item_list, theme_color, theme_color1, theme_color2):    
@@ -1116,10 +1120,11 @@ def progress_thread(window):
     f.write('</div>\n')  
     f.write('</body>\n')
     f.write('</html>\n')
+    time.sleep(0.5)
     f.close()
-    progfilepath = ds_output + "/output-files/"
-    failedmarker = progfilepath + "/failed.txt"
-    side_html_menu = progfilepath + "/summary.html.menu"
+    progfilepath = os.path.join(ds_output, "output-files/")
+    failedmarker = os.path.join(progfilepath, "failed.txt")
+    side_html_menu = os.path.join(progfilepath, "summary.html.menu")
     while True:
         time.sleep(2)
         if os.path.exists(failedmarker) == True:
@@ -1191,6 +1196,7 @@ def progress_thread(window):
         f.write('</body>\n')
         f.write('</html>\n')
         f.close()
+        time.sleep(0.5)
         
             
 
