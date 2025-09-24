@@ -17,7 +17,7 @@
 #    along with AutoGUI.  If not, see <http://www.gnu.org/licenses/>.
 
 
-version = 'v.20250307'                             # current version
+version = 'v.20250922'                             # current version
 # DARWIN!
 
 # Dependencies required:
@@ -48,6 +48,7 @@ display_inhouse_message = True # display above message if inhouse detector is se
 dark_theme = False                                    # use dark or light theme
 prepfolder_classic = True                             # prepare subfolders in classic mode?
 prepfolder_batch = True                               # prepare subfolders in batch mode?
+overloaddebug = True                                 # Fix issues if OVERLOAD value is written as float in XDS.INP and causes XDS to fail
  
 
 theme_highlight_color = '#458eaf'
@@ -213,7 +214,8 @@ param_nthreads = "-nthreads " + nprocs              # max number of threads
 param_appended = ''                                 # parameters to be directly appended to the command line
 param_exp = ''                                      # experimental parameters such as beamcenter, wavelength, distance, ...
 param_untrusted = ''                                # XDS untrusted regions, including detector gaps, if masked
-param_footprint = 'AutoProcSmallFootprint="yes"'    # Try to make less (useless) files
+param_footprint = 'AutoProcSmallFootprint="yes"'    # try to make less (useless) files
+param_overloaddebug = ''                            # circumvent XDS failing during indexing due to float value for OVERLOAD
 
 # Start in debug mode
 if len(sys.argv) != 1:
@@ -503,7 +505,7 @@ def progress_thread(window):
     time.sleep(0.5)
     window.write_event_value('-PROGRESSUPDATE-', progword) 
     window.write_event_value('-BARUPDATE-', b)
-    stuffpath = dumppath + "/output-files"
+    stuffpath = os.path.join(dumppath, "/output-files")
     side_html_menu = os.path.join(stuffpath, "summary.html.menu")
     while True:
         time.sleep(2)
@@ -1553,6 +1555,7 @@ if os.path.exists(config_path) == True:
     cfg_prepclassic = re.compile("prepfolder_classic = ")
     cfg_prepbatch = re.compile("prepfolder_batch = ")
     cfg_dark = re.compile("dark_theme = ")   
+    cfg_overloaddebug = re.compile("overload_debug = ")   
     with open (config_path, 'rt') as config:
         for line in config:
             line = line.strip()
@@ -1586,22 +1589,28 @@ if os.path.exists(config_path) == True:
                 preplist = (re.split(cfg_preplist, line))[-1]
             if cfg_dark.search(line) != None:
                 dark_theme = (re.split(cfg_dark, line))[-1]
-                if dark_theme == ("True" or "true" or "TRUE" or "y" or "Y" or "yes" or "Yes" or "YES"):
+                if dark_theme.strip().lower() in ("true", "y","yes"):
                     dark_theme = True
                 else:
                     dark_theme = False
             if cfg_prepclassic.search(line) != None:
                 prepfolder_classic = (re.split(cfg_prepclassic, line))[-1]
-                if prepfolder_classic == ("True" or "true" or "TRUE" or "y" or "Y" or "yes" or "Yes" or "YES"):
+                if prepfolder_classic.strip().lower() in ("true", "y","yes"):
                     prepfolder_classic = True
                 else:
                     prepfolder_classic = False
             if cfg_prepbatch.search(line) != None:
                 prepfolder_batch = (re.split(cfg_prepbatch, line))[-1]
-                if prepfolder_batch == ("True" or "true" or "TRUE" or "y" or "Y" or "yes" or "Yes" or "YES"):
+                if prepfolder_batch.strip().lower() in ("true", "y","yes"):
                     prepfolder_batch = True
                 else:
-                    prepfolder_batch = False          
+                    prepfolder_batch = False
+            if cfg_overloaddebug.search(line) != None:
+                overloaddebug = (re.split(cfg_overloaddebug, line))[-1]
+                if overloaddebug.strip().lower() in ("true", "y","yes"):
+                    overloaddebug = True
+                else:
+                    overloaddebug = False                  
     config.close()
 else:
     print('')
@@ -1624,19 +1633,19 @@ if os.path.exists(personal_config) == True:
             line = line.strip() 
             if cfg_dark.search(line) != None:
                 dark_theme = (re.split(cfg_dark, line))[-1]
-                if dark_theme == ("True" or "true" or "TRUE" or "y" or "Y" or "yes" or "Yes" or "YES"):
+                if dark_theme.strip().lower() in ("true", "y","yes"):
                     dark_theme = True
                 else:
                     dark_theme = False
             if cfg_prepclassic.search(line) != None:
                 prepfolder_classic = (re.split(cfg_prepclassic, line))[-1]
-                if prepfolder_classic == ("True" or "true" or "TRUE" or "y" or "Y" or "yes" or "Yes" or "YES"):
+                if prepfolder_classic.strip().lower() in ("true", "y","yes"):
                     prepfolder_classic = True
                 else:
                     prepfolder_classic = False
             if cfg_prepbatch.search(line) != None:
                 prepfolder_batch = (re.split(cfg_prepbatch, line))[-1]
-                if prepfolder_batch == ("True" or "true" or "TRUE" or "y" or "Y" or "yes" or "Yes" or "YES"):
+                if prepfolder_batch.strip().lower() in ("true", "y","yes"):
                     prepfolder_batch = True
                 else:
                     prepfolder_batch = False
@@ -1881,6 +1890,8 @@ while True:
     # select browsing folder for data
     if event == '-DATABROWSE-':
         homedir = '~/'
+        if os.path.exists(values['-OUTF-']) == True:
+            outpath = values['-OUTF-']
         currentdir = outpath
         if os.path.exists(values['-IMGS-']) == True:
             currentdir = values['-IMGS-']
@@ -1952,6 +1963,8 @@ while True:
     # select browsing folder for EIGER Data
     if event == '-EIGERBROWSE-':
         homedir = '~/'
+        if os.path.exists(values['-OUTF-']) == True:
+            outpath = values['-OUTF-']
         currentdir = "/".join((values['-HDF5-']).split("/")[:-1])
         if os.path.exists(values['-HDF5-']) == True:
             currentdirdisabled = False
@@ -2385,8 +2398,9 @@ while True:
                                [sg.Text('autoPROC:\nVonrhein, C., Flensburg, C., Keller, P., Sharff, A., Smart, O., Paciorek, W.,\nWomack, T. and Bricogne, G. (2011). Data processing and analysis with\nthe autoPROC toolbox. Acta Cryst. D67, 293-302.')],
                                [sg.Text('XDS/XSCALE:\nKabsch, W. (2010). XDS. Acta Cryst. D66, 125-132.')],
                                [sg.Text('POINTLESS:\nEvans, P.R. (2006). Scaling and assessment of data quality, Acta Cryst. D62, 72-82.')],
-                               [sg.Text('CCP4:\nWinn, M.D., Ballard, C.C., Cowtan, K.D. Dodson, E.J., Emsley, P., Evans, P.R.,\nKeegan, R.M., Krissinel, E.B., Leslie, A.G.W., McCoy, A., McNicholas, S.J., Murshudov,\nG.N., Pannu, N.S., Potterton, E.A., Powell, H.R., Read, R.J., Vagin, A. and Wilson, K.S.\n(2011). Overview of the CCP4 suite and current developments, Acta. Cryst. D67, 235-242.')], 
-                               [sg.Text('STARANISO:\nTickle, I.J., Flensburg, C., Keller, P., Paciorek, W., Sharff, A., Vonrhein, C.,\nand Bricogne, G. (2018-2021). STARANISO. Cambridge, United Kingdom: Global Phasing Ltd.')],
+                               [sg.Text('CCP4:\nAgirre, J., Atanasova, M., Bagdonas, H., Ballard, C. B., Basle, A.,\nBeilsten-Edmands, J., ... and Yamashita, K. (2023).The CCP4 suite:\nintegrative software for macromolecular crystallography. Acta Cryst. D79, 449-461.')], 
+                               [sg.Text('STARANISO:\nTickle, I.J., Flensburg, C., Keller, P., Paciorek, W., Sharff, A., Vonrhein, C.,\nand Bricogne, G. (2018-2025). STARANISO. Cambridge, United Kingdom: Global Phasing Ltd.')],
+                               [sg.Text('GEMMI:\nWojdyr, M. (2022). GEMMI: A library for structural biology.\nJournal of Open Source Software, 7(73), 4200.')],
                                [sg.Text('AutoGUI is also using Adxv:\nArvai, A. Adxv - A Program to Display X-ray Diffraction Images,\nhttps://www.scripps.edu/tainer/arvai/adxv.html')],
                                [sg.HorizontalSeparator(color = None,)],
                                [sg.Button('Okay', highlight_colors = (theme_color, theme_color)), sg.Button('Changelog', button_color = (theme_color, theme_color1), mouseover_colors = (theme_color1, theme_color), highlight_colors = (theme_color, theme_color)), sg.Button('License information', button_color = (theme_color, theme_color1), mouseover_colors = (theme_color1, theme_color), highlight_colors = (theme_color, theme_color)),
@@ -4791,8 +4805,16 @@ while True:
                     print(untrusted_string)
                     param_untrusted = param_untrusted + " " + untrusted_string
 
+            if overloaddebug == True:
+                if overload != "n/a" and overload != "":
+                    param_overloaddebug = 'XdsFormatSpecificJiffyOverwrite=no'
+                else:     
+                    param_overloaddebug = 'autoPROC_XdsKeyword_OVERLOAD=' + str(values['-OVERLOAD-']) + ' XdsFormatSpecificJiffyOverwrite=no'
+            else:
+                param_overloaddebug = ""   
+
             #assemble commandline argument    
-            auto_command = (' '.join(["process", param_I, param_h5, param_d, param_R, param_Ano, param_ref, param_free, param_M, param_symm, param_cell, param_extra, param_sweeps, param_bad_imgs, param_cut, param_exp, param_untrusted, param_nthreads, param_footprint, param_appended]))
+            auto_command = (' '.join(["process", param_I, param_h5, param_d, param_overloaddebug, param_R, param_Ano, param_ref, param_free, param_M, param_symm, param_cell, param_extra, param_sweeps, param_bad_imgs, param_cut, param_exp, param_untrusted, param_nthreads, param_footprint, param_appended]))
             auto_command = (' '.join(auto_command.split()))
             bash_command = auto_command + " | tee log.txt"
             print('')

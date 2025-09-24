@@ -1,7 +1,12 @@
 ===AutoGUI version history ===
 
 v.20250307
-- First version alkso supporting MacOS
+- Bugfix release:
+  - If required, parameter "overload_debug" in config file can be activated to prevent XDS from failing during indexing due to a float instead of an integer for the OVERLOAD parameter in XDS.INP.
+  - "Working directory" in image browsing dialogue now correctly refers to directory set for AutoGUI output
+
+v.20250307
+- First version also supporting MacOS
 - Use of screen for detachin Batch mode can be disabled. (Might be necessary on some Macs.)
 - Searching for log files can follow symbolic links
 - Bugfixes

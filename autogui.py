@@ -17,7 +17,7 @@
 #    along with AutoGUI.  If not, see <http://www.gnu.org/licenses/>.
 
 
-version = 'v.20250307'                             # current version
+version = 'v.20250922'                             # current version
 # DARWIN!
 
 # Dependencies required:
@@ -42,6 +42,7 @@ preplist = 'refine coot phaser xtriage autobuild pdb_deposit ccp4 pymol' # list 
 prepfolder_classic = True
 prepfolder_batch = True
 use_screen = True
+overloaddebug = False  # Fix issues if OVERLOAD value is written as float in XDS.INP and causes XDS to fail
 
 theme_highlight_color = '#458eaf'
 dark_theme_color = '#2b2a32' 
@@ -535,7 +536,8 @@ if os.path.exists(config_path) == True:
     cfg_preplist = re.compile("preplist = ") 
     cfg_prepclassic = re.compile("prepfolder_classic = ")
     cfg_prepbatch = re.compile("prepfolder_batch = ")
-    cfg_dark = re.compile("dark_theme = ")  
+    cfg_dark = re.compile("dark_theme = ") 
+    cfg_overloaddebug = re.compile("overload_debug = ")   
     with open (config_path, 'rt') as config:
         for line in config:
             line = line.strip() 
@@ -543,22 +545,28 @@ if os.path.exists(config_path) == True:
                 browser = (re.split(cfg_browser, line))[-1]
             if cfg_dark.search(line) != None:
                 dark_theme = (re.split(cfg_dark, line))[-1]
-                if dark_theme == ("True" or "true" or "TRUE" or "y" or "Y" or "yes" or "Yes" or "YES"):
+                if dark_theme.strip().lower() in ("true", "y","yes"):
                     dark_theme = True
                 else:
                     dark_theme = False
             if cfg_prepclassic.search(line) != None:
                 prepfolder_classic = (re.split(cfg_prepclassic, line))[-1]
-                if prepfolder_classic == ("True" or "true" or "TRUE" or "y" or "Y" or "yes" or "Yes" or "YES"):
+                if prepfolder_classic.strip().lower() in ("true", "y","yes"):
                     prepfolder_classic = True
                 else:
                     prepfolder_classic = False
             if cfg_prepbatch.search(line) != None:
                 prepfolder_batch = (re.split(cfg_prepbatch, line))[-1]
-                if prepfolder_batch == ("True" or "true" or "TRUE" or "y" or "Y" or "yes" or "Yes" or "YES"):
+                if prepfolder_batch.strip().lower() in ("true", "y","yes"):
                     prepfolder_batch = True
                 else:
                     prepfolder_batch = False
+            if cfg_overloaddebug.search(line) != None:
+                overloaddebug = (re.split(cfg_overloaddebug, line))[-1]
+                if overloaddebug.strip().lower() in ("true", "y","yes"):
+                    overloaddebug = True
+                else:
+                    overloaddebug = False         
             if cfg_inpath.search(line) != None:
                 inpath = (re.split(cfg_inpath, line))[-1]
             if cfg_outpath.search(line) != None:
@@ -588,19 +596,19 @@ if os.path.exists(personal_config) == True:
             line = line.strip() 
             if cfg_dark.search(line) != None:
                 dark_theme = (re.split(cfg_dark, line))[-1]
-                if dark_theme == ("True" or "true" or "TRUE" or "y" or "Y" or "yes" or "Yes" or "YES"):
+                if dark_theme.strip().lower() in ("true", "y","yes"):
                     dark_theme = True
                 else:
                     dark_theme = False
             if cfg_prepclassic.search(line) != None:
                 prepfolder_classic = (re.split(cfg_prepclassic, line))[-1]
-                if prepfolder_classic == ("True" or "true" or "TRUE" or "y" or "Y" or "yes" or "Yes" or "YES"):
+                if prepfolder_classic.strip().lower() in ("true", "y","yes"):
                     prepfolder_classic = True
                 else:
                     prepfolder_classic = False
             if cfg_prepbatch.search(line) != None:
                 prepfolder_batch = (re.split(cfg_prepbatch, line))[-1]
-                if prepfolder_batch == ("True" or "true" or "TRUE" or "y" or "Y" or "yes" or "Yes" or "YES"):
+                if prepfolder_batch.strip().lower() in ("true", "y","yes"):
                     prepfolder_batch = True
                 else:
                     prepfolder_batch = False
@@ -614,7 +622,7 @@ if os.path.exists(personal_config) == True:
                 theme_highlight_color = (re.split(cfg_highlight, line))[-1]
             if cfg_screen.search(line) != None:
                 use_screen = (re.split(cfg_screen, line))[-1]
-                if use_screen == ("True" or "true" or "TRUE" or "y" or "Y" or "yes" or "Yes" or "YES"):
+                if use_screen.strip().lower() in ("true", "y","yes"):
                     use_screen = True
                 else:
                     use_screen = False
@@ -718,8 +726,9 @@ while True:
                                [sg.Text('autoPROC:\nVonrhein, C., Flensburg, C., Keller, P., Sharff, A., Smart, O., Paciorek, W.,\nWomack, T. and Bricogne, G. (2011). Data processing and analysis with\nthe autoPROC toolbox. Acta Cryst. D67, 293-302.')],
                                [sg.Text('XDS/XSCALE:\nKabsch, W. (2010). XDS. Acta Cryst. D66, 125-132.')],
                                [sg.Text('POINTLESS:\nEvans, P.R. (2006). Scaling and assessment of data quality, Acta Cryst. D62, 72-82.')],
-                               [sg.Text('CCP4:\nWinn, M.D., Ballard, C.C., Cowtan, K.D. Dodson, E.J., Emsley, P., Evans, P.R.,\nKeegan, R.M., Krissinel, E.B., Leslie, A.G.W., McCoy, A., McNicholas, S.J., Murshudov,\nG.N., Pannu, N.S., Potterton, E.A., Powell, H.R., Read, R.J., Vagin, A. and Wilson, K.S.\n(2011). Overview of the CCP4 suite and current developments, Acta. Cryst. D67, 235-242.')], 
-                               [sg.Text('STARANISO:\nTickle, I.J., Flensburg, C., Keller, P., Paciorek, W., Sharff, A., Vonrhein, C.,\nand Bricogne, G. (2018-2021). STARANISO. Cambridge, United Kingdom: Global Phasing Ltd.')],
+                               [sg.Text('CCP4:\nAgirre, J., Atanasova, M., Bagdonas, H., Ballard, C. B., Basle, A.,\nBeilsten-Edmands, J., ... and Yamashita, K. (2023).The CCP4 suite:\nintegrative software for macromolecular crystallography. Acta Cryst. D79, 449-461.')], 
+                               [sg.Text('STARANISO:\nTickle, I.J., Flensburg, C., Keller, P., Paciorek, W., Sharff, A., Vonrhein, C.,\nand Bricogne, G. (2018-2025). STARANISO. Cambridge, United Kingdom: Global Phasing Ltd.')],
+                               [sg.Text('GEMMI:\nWojdyr, M. (2022). GEMMI: A library for structural biology.\nJournal of Open Source Software, 7(73), 4200.')],
                                [sg.Text('AutoGUI is also using Adxv:\nArvai, A. Adxv - A Program to Display X-ray Diffraction Images,\nhttps://www.scripps.edu/tainer/arvai/adxv.html')],
                                [sg.HorizontalSeparator(color = None,)],
                                [sg.Button('Okay', highlight_colors = (theme_color, theme_color)), sg.Button('Changelog', button_color = (theme_color, theme_color1), mouseover_colors = (theme_color1, theme_color), highlight_colors = (theme_color, theme_color)), sg.Button('License information', button_color = (theme_color, theme_color1), mouseover_colors = (theme_color1, theme_color), highlight_colors = (theme_color, theme_color)),sg.Text('Enable debug mode', size = (35, None), justification = 'right', text_color = '#D0D0D0', tooltip = 'Developer only!'), sg.Checkbox('', tooltip = 'Developer only!', default = debug, key = '-ERRTOGGLE-', text_color = '#D0D0D0', enable_events = True)]] 
