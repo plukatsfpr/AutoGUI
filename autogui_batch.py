@@ -17,7 +17,7 @@
 #    along with AutoGUI.  If not, see <http://www.gnu.org/licenses/>.
 
 
-version = 'v.20250307'                             # current version
+version = 'v.20250922'                             # current version
 # LINUX!
 
 # Dependencies required:
@@ -38,6 +38,7 @@ preplist = 'refine coot phaser xtriage autobuild pdb_deposit ccp4 pymol' # list 
 dark_theme = False                                    # use dark or light theme 
 prepfolder_classic = True                             # prepare subfolders in classic mode?
 prepfolder_batch = True                               # prepare subfolders in batch mode?
+overloaddebug = False                                 # Fix issues if OVERLOAD value is written as float in XDS.INP and causes XDS to fail
 
 theme_highlight_color = '#458eaf'
 dark_theme_color = '#2b2a32' 
@@ -45,7 +46,6 @@ light_theme_color = 'white'
 
 
 
-# import PySimpleGUI as sg
 import FreeSimpleGUI as sg
 import time
 import subprocess
@@ -88,6 +88,7 @@ simple_title = win_title
 # 7  = macro    --> Deprecated!
 # 8  = flag
 # 9  = command line arguments
+# 10 = overload value
 
 #variables
 cbflist = []
@@ -139,6 +140,7 @@ proc_date = ''
 old_cutoff_param = 'ScaleAnaISigmaCut_123="0.1:0.1 0.5:0.5 0.5:1.0 1.0:2.0" ScaleAnaRpimallCut_123="99.9999:99.9999 0.9:0.9 0.8:0.8 0.6:0.6" ScaleAnaCChalfCut_123="-1.0:-1.0 0.0:0.0 0.1:0.1 0.3:0.3"' # as used until autoPROCVersion20220608          
 cleanup_args = '-not -name "*.html" -not -name "*.htm" -not -name "*.HTML" -not -name "*.png" -not -name "*.jpg" -not -name "HTM" -not -name "*.LP" -not -name "*.log" -not -name "failed.txt" -not -name "autobatch_done.txt" -print0 | xargs -I {} -0 rm "{}"'
 useful_files_to_copy = ["CORRECT.LP", "aimless.log", "xscale_XSCALE.LP", "XDS.INP", "XDS_ASCII.HKL", "INTEGRATE.HKL", "remark200.pdb", "staraniso_remark200.pdb"]
+overload_value = "0"
 
 # thread for autoproc function 
 def autoproc_function(param, procpath):
@@ -290,6 +292,7 @@ def find_sweep_thread(window):
                         line = ''.join(line.split(' List of identifiers = '))
                         hits = line.split(' ')
                         #print(hits)
+                        #time.sleep(1)
 
             findimages.close
             os.remove("./findimages.tmp")
@@ -303,7 +306,6 @@ def find_sweeps(imgpath, EIGER):
 #helper function for nicer display of datasets
 def make_data_display(datasets):
     data_display = []
-    data_list = []
     data_stuff = copy.deepcopy(datasets)
     for dset in data_stuff:
         subset = (dset[8] + dset[1] + "/" + dset[2])
@@ -1322,6 +1324,32 @@ def export_csv(dumppath, csv_header, csv_content):
 def collapse(layout, key):
    return sg.pin(sg.Column(layout, key=key, visible = show_errors))
 
+# image info for overload retrieval
+def imginfo_function(info_image):
+    time.sleep(0.5)
+    overload_value = "0"
+    imginfo_command = "imginfo "+ info_image + " > ./imginfo.tmp"
+    imginfo_process = subprocess.Popen(imginfo_command, stdout=subprocess.PIPE, universal_newlines=True, shell=True)
+    decider = False
+    imginfopattern = re.compile(" ===== Header information:")
+    overloadpattern = re.compile(" Overload")
+    while True:
+        return_code = imginfo_process.poll()
+        if return_code is not None:
+            with open ('./imginfo.tmp', 'rt') as imginfo:
+                for line in imginfo:                 
+                    if (imginfopattern.search(line) != None):
+                        decider = True
+                    if  decider == True: 
+                        #print(line))
+                        if (overloadpattern.search(line) != None):
+                            val = re.split('= ', (line.rstrip('\n')))
+                            overload_value = val[1]            
+            imginfo.close
+            os.remove("./imginfo.tmp")
+            return overload_value
+             
+
 
 
 ##############################
@@ -1341,6 +1369,7 @@ if os.access(current_path, os.W_OK) == False:
 
 # second thing: check if global config-file is available and read values
 if os.path.exists(config_path) == True:
+    print("Global config file found.")
     cfg_inpath = re.compile("inpath = ")
     cfg_outpath = re.compile("outpath = ")
     cfg_browser = re.compile("browser = ")
@@ -1350,7 +1379,8 @@ if os.path.exists(config_path) == True:
     cfg_preplist = re.compile("preplist = ") 
     cfg_prepclassic = re.compile("prepfolder_classic = ")
     cfg_prepbatch = re.compile("prepfolder_batch = ")
-    cfg_dark = re.compile("dark_theme = ")  
+    cfg_dark = re.compile("dark_theme = ")
+    cfg_overloaddebug = re.compile("overload_debug = ")    
     with open (config_path, 'rt') as config:
         for line in config:
             line = line.strip()
@@ -1368,22 +1398,28 @@ if os.path.exists(config_path) == True:
                 preplist = (re.split(cfg_preplist, line))[-1] 
             if cfg_dark.search(line) != None:
                 dark_theme = (re.split(cfg_dark, line))[-1]
-                if dark_theme == ("True" or "true" or "TRUE" or "y" or "Y" or "yes" or "Yes" or "YES"):
+                if dark_theme.strip().lower() in ("true", "y","yes"):
                     dark_theme = True
                 else:
                     dark_theme = False
             if cfg_prepclassic.search(line) != None:
                 prepfolder_classic = (re.split(cfg_prepclassic, line))[-1]
-                if prepfolder_classic == ("True" or "true" or "TRUE" or "y" or "Y" or "yes" or "Yes" or "YES"):
+                if prepfolder_classic.strip().lower() in ("true", "y","yes"):
                     prepfolder_classic = True
                 else:
                     prepfolder_classic = False
             if cfg_prepbatch.search(line) != None:
                 prepfolder_batch = (re.split(cfg_prepbatch, line))[-1]
-                if prepfolder_batch == ("True" or "true" or "TRUE" or "y" or "Y" or "yes" or "Yes" or "YES"):
+                if prepfolder_batch.strip().lower() in ("true", "y","yes"):
                     prepfolder_batch = True
                 else:
-                    prepfolder_batch = False                   
+                    prepfolder_batch = False   
+            if cfg_overloaddebug.search(line) != None:
+                overloaddebug = (re.split(cfg_overloaddebug, line))[-1]
+                if overloaddebug.strip().lower() in ("true", "y","yes"):
+                    overloaddebug = True
+                else:
+                    overloaddebug = False                               
     config.close()
 else:
     print('')
@@ -1406,22 +1442,22 @@ if os.path.exists(personal_config) == True:
             line = line.strip() 
             if cfg_dark.search(line) != None:
                 dark_theme = (re.split(cfg_dark, line))[-1]
-                if dark_theme == ("True" or "true" or "TRUE" or "y" or "Y" or "yes" or "Yes" or "YES"):
+                if dark_theme.strip().lower() in ("true", "y","yes"):
                     dark_theme = True
                 else:
                     dark_theme = False
             if cfg_prepclassic.search(line) != None:
                 prepfolder_classic = (re.split(cfg_prepclassic, line))[-1]
-                if prepfolder_classic == ("True" or "true" or "TRUE" or "y" or "Y" or "yes" or "Yes" or "YES"):
+                if prepfolder_classic.strip().lower() in ("true", "y","yes"):
                     prepfolder_classic = True
                 else:
                     prepfolder_classic = False
             if cfg_prepbatch.search(line) != None:
                 prepfolder_batch = (re.split(cfg_prepbatch, line))[-1]
-                if prepfolder_batch == ("True" or "true" or "TRUE" or "y" or "Y" or "yes" or "Yes" or "YES"):
+                if prepfolder_batch.strip().lower() in ("true", "y","yes"):
                     prepfolder_batch = True
                 else:
-                    prepfolder_batch = False
+                    prepfolder_batch = False       
             if cfg_inpath.search(line) != None:
                 inpath = (re.split(cfg_inpath, line))[-1]
             if cfg_outpath.search(line) != None:
@@ -1656,6 +1692,8 @@ while True:
     # select browsing folder for data
     if event == '-DATABROWSE-':
         homedir = '~/'
+        if os.path.exists(values['-OUTF-']) == True:
+            outpath = values['-OUTF-']
         currentdir = outpath
         if os.path.exists(values['-IMGS-']) == True:
             currentdir = values['-IMGS-']
@@ -1752,12 +1790,13 @@ while True:
                 sweep.append('deprecated')
                 sweep.append('  ')
                 sweep.append('')
+                sweep.append('')
                 datasets.append(sweep)
-                print(hit)
+                #print(hit)
             
         # split sweeps into parameter lists          
         # only continue if there are datasets found at all
-        if len(hits) < 1 or len(datasets[0]) < 10:
+        if len(hits) < 1 or len(datasets[0]) < 11:
             if numfoundhitsskipped > 0:
                 print('')
                 print(str(numfoundhitsskipped), 'datasets have been skipped due to errors!')
@@ -1765,29 +1804,36 @@ while True:
                 print('')
                 window['-STATUS-'].update(value = "All datasets have been skipped due to errors!", text_color = "dark red") 
             else:
-                if len(previous_datasets[0]) < 10:
-                    print('')
-                    print("No datasets found!")
-                    print("Detector mode correct? (EIGER/PILATUS)")
-                    print('')
-                    window['-STATUS-'].update(value = "No datasets found!", text_color = "dark red")
-                else:
-                    datasets = previous_datasets
-                    print('')
-                    print("No additional datasets found!")
-                    print("Detector mode correct? (EIGER/PILATUS)")
-                    print('')
-                    msg = "Found " + str(len(datasets)) + " datasets previously."
-                    print(msg + " in " + imgpath + ":")
-                    print('')
-                    window['-STATUS-'].update(value = msg, text_color = theme_color)         
-                    data_display = make_data_display(datasets)
-                    window['-DATASETS-'].update(data_display)
-                    print("\n".join(data_display))
-                    #print(datasets)
-                    print("")
-                    window['-RUN-'].update(disabled = False)
-                    window['-+-'].update(button_color = (theme_color1, theme_color))        
+                try:
+                    if len(previous_datasets[0]) < 11:
+                        print('')
+                        print("No datasets found!")
+                        print("Detector mode correct? (EIGER/PILATUS)")
+                        print('')
+                        window['-STATUS-'].update(value = "No datasets found!", text_color = "dark red")
+                    else:
+                        datasets = previous_datasets
+                        print('')
+                        print("No additional datasets found!")
+                        print("Detector mode correct? (EIGER/PILATUS)")
+                        print('')
+                        msg = "Found " + str(len(datasets)) + " datasets previously."
+                        print(msg + " in " + imgpath + ":")
+                        print('')
+                        window['-STATUS-'].update(value = msg, text_color = theme_color)         
+                        data_display = make_data_display(datasets)
+                        window['-DATASETS-'].update(data_display)
+                        print("\n".join(data_display))
+                        #print(datasets)
+                        print("")
+                        window['-RUN-'].update(disabled = False)
+                        window['-+-'].update(button_color = (theme_color1, theme_color))
+                except:
+                        print('')
+                        print("No datasets found!")
+                        print("Detector mode correct? (EIGER/PILATUS)")
+                        print('')
+                        window['-STATUS-'].update(value = "No datasets found!", text_color = "dark red")        
         else:
             if numfoundhitsskipped > 0:
                 print('')
@@ -1815,6 +1861,26 @@ while True:
                     dataset[6] = os.path.join(dataset[6], dataset[0])
                 else:
                     dataset[6] = os.path.join(dataset[6], datapath)
+                if overloaddebug == True:
+                    #print('Overload_debug')
+                    #time.sleep(1)
+                    if EIGER == False:
+                        num_hashes = (dataset[2]).count('#')
+                        #print(num_hashes)
+                        first_image_number = int(dataset[3])
+                        formatted_number = f"{first_image_number:0{num_hashes}d}"
+                        image_filename_rest = dataset[2].replace('#' * num_hashes, formatted_number)
+                        dataset[10] = imginfo_function(os.path.join(dataset[1], image_filename_rest))
+                        print('Overload:', dataset[10])
+                        print('for', os.path.join(dataset[1], image_filename_rest))
+                        print('')
+                    else:
+                        dataset[10] = imginfo_function(os.path.join(dataset[1], dataset[2]))
+                        print('Overload:', dataset[10])
+                        print('for', os.path.join(dataset[1], dataset[2]))
+                        print('')
+                else:
+                    dataset[10] = "0"        
             datasets = previous_datasets + datasets           
             data_display = make_data_display(datasets)
             window['-DATASETS-'].update(data_display)
@@ -2129,8 +2195,9 @@ while True:
                                [sg.Text('autoPROC:\nVonrhein, C., Flensburg, C., Keller, P., Sharff, A., Smart, O., Paciorek, W.,\nWomack, T. and Bricogne, G. (2011). Data processing and analysis with\nthe autoPROC toolbox. Acta Cryst. D67, 293-302.')],
                                [sg.Text('XDS/XSCALE:\nKabsch, W. (2010). XDS. Acta Cryst. D66, 125-132.')],
                                [sg.Text('POINTLESS:\nEvans, P.R. (2006). Scaling and assessment of data quality, Acta Cryst. D62, 72-82.')],
-                               [sg.Text('CCP4:\nWinn, M.D., Ballard, C.C., Cowtan, K.D. Dodson, E.J., Emsley, P., Evans, P.R.,\nKeegan, R.M., Krissinel, E.B., Leslie, A.G.W., McCoy, A., McNicholas, S.J., Murshudov,\nG.N., Pannu, N.S., Potterton, E.A., Powell, H.R., Read, R.J., Vagin, A. and Wilson, K.S.\n(2011). Overview of the CCP4 suite and current developments, Acta. Cryst. D67, 235-242.')], 
-                               [sg.Text('STARANISO:\nTickle, I.J., Flensburg, C., Keller, P., Paciorek, W., Sharff, A., Vonrhein, C.,\nand Bricogne, G. (2018-2021). STARANISO. Cambridge, United Kingdom: Global Phasing Ltd.')],
+                               [sg.Text('CCP4:\nAgirre, J., Atanasova, M., Bagdonas, H., Ballard, C. B., Basle, A.,\nBeilsten-Edmands, J., ... and Yamashita, K. (2023).The CCP4 suite:\nintegrative software for macromolecular crystallography. Acta Cryst. D79, 449-461.')], 
+                               [sg.Text('STARANISO:\nTickle, I.J., Flensburg, C., Keller, P., Paciorek, W., Sharff, A., Vonrhein, C.,\nand Bricogne, G. (2018-2025). STARANISO. Cambridge, United Kingdom: Global Phasing Ltd.')],
+                               [sg.Text('GEMMI:\nWojdyr, M. (2022). GEMMI: A library for structural biology.\nJournal of Open Source Software, 7(73), 4200.')],
                                [sg.Text('AutoGUI is also using Adxv:\nArvai, A. Adxv - A Program to Display X-ray Diffraction Images,\nhttps://www.scripps.edu/tainer/arvai/adxv.html')],
                                [sg.HorizontalSeparator(color = None,)],
                                [sg.Button('Okay', highlight_colors = (theme_color, theme_color)), sg.Button('Changelog', button_color = (theme_color, theme_color1), mouseover_colors = (theme_color1, theme_color), highlight_colors = (theme_color, theme_color)), sg.Button('License information', button_color = (theme_color, theme_color1), mouseover_colors = (theme_color1, theme_color), highlight_colors = (theme_color, theme_color)),
@@ -2458,10 +2525,14 @@ if runflag == True:
             ds_log = os.path.join(dumppath, ds_log)
             text_log = os.path.join(procpath, "log.txt")
             sweepset = (",".join([dataset[0], dataset[1], dataset[2], dataset[3], dataset[4]]))
-            if oldcutoffmode == True:
-                param = ((' '.join(["process", "-Id", sweepset, "-d output-files", dataset[7], dataset[9]])).strip(' ')) + " -nthreads " + batchprocs + " " + old_cutoff_param + " | tee -a " + ds_log + " " + text_log + " " + proc_console + " " + proc_log
+            if (overloaddebug == True) and (dataset[10] != "0"):
+                overloaddebugparam = " autoPROC_XdsKeyword_OVERLOAD=" + str(dataset[10]) + " XdsFormatSpecificJiffyOverwrite=no"
             else:
-                param = ((' '.join(["process", "-Id", sweepset, "-d output-files", dataset[7], dataset[9]])).strip(' ')) + " -nthreads " + batchprocs + " | tee -a " + ds_log + " " + text_log + " " + proc_console + " " + proc_log
+                overloaddebugparam =""    
+            if oldcutoffmode == True:
+                param = ((' '.join(["process", "-Id", sweepset, "-d output-files", dataset[7], dataset[9]])).strip(' ')) + overloaddebugparam + " -nthreads " + batchprocs + " " + old_cutoff_param + " | tee -a " + ds_log + " " + text_log + " " + proc_console + " " + proc_log
+            else:
+                param = ((' '.join(["process", "-Id", sweepset, "-d output-files", dataset[7], dataset[9]])).strip(' ')) + overloaddebugparam + " -nthreads " + batchprocs + " | tee -a " + ds_log + " " + text_log + " " + proc_console + " " + proc_log
             csv_entry[8] = re.split("\|", param)[0]
             print('Executing autoPROC with:\n',param)
             HTML_log(j, procpath, refresh, theme_color, theme_color1, theme_color2)
