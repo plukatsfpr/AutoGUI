@@ -26,8 +26,8 @@ So far, AutoGUI is developed, tested and routinely used on a server running open
 ## How can I set it up? 
 ### Preparation
 1. Download AutoGUI for your OS:
-    #### https://github.com/plukatsfpr/AutoGUI/releases/download/v20250307/AutoGUI_v20250307_LINUX.zip
-    #### https://github.com/plukatsfpr/AutoGUI/releases/download/v20250307/AutoGUI_v20250307_MAC.zip
+    #### https://github.com/plukatsfpr/AutoGUI/releases/download/v20250922/AutoGUI_v20250922_LINUX.zip
+    #### https://github.com/plukatsfpr/AutoGUI/releases/download/v20250922/AutoGUI_v20250922_MAC.zip
 2. Extract the AutoGUI files matching your OS to a folder on your system where you want it to be located.  
 3. First check if all external programs (autoPROC, CCP4i, ImagMagic and Adxv) are installed and in the path. (Adxv does not need to be in the path, the location of it is set in the next step.)
 4. Adjust the at least the parameters marked as required (and ideally also the rest) in 'autogui.cfg' to match your setup.
@@ -43,7 +43,7 @@ It is highly recommended to use the automatic setup script, as this avoids messi
 ## Handbook
 COMING SOON
 There is a conference poster available as a preview: 
-##### https://github.com/plukatsfpr/AutoGUI/releases/download/v20250307/AutoGUI_Poster_DGK_2025.pdf
+##### https://github.com/plukatsfpr/AutoGUI/releases/download/v20250922/AutoGUI_Poster_DGK_2025.pdf
 This will (hopefully) soon be replaced by a handbook.
 
 ## How do I cite AutoGUI?
@@ -66,14 +66,17 @@ Kabsch, W. (2010). XDS. Acta Cryst. D66, 125-132.
 Evans, P.R. (2006). Scaling and assessment of data quality, Acta Cryst. D62, 72-82.
 
 - CCP4:
-Winn, M.D., Ballard, C.C., Cowtan, K.D. Dodson, E.J., Emsley, P., Evans, P.R.,
-Keegan, R.M., Krissinel, E.B., Leslie, A.G.W., McCoy, A., McNicholas, S.J., Murshudov,
-G.N. Pannu, N.S., Potterton, E.A., Powell, H.R., Read, R.J., Vagin, A. and Wilson, K.S.
-(2011). Overview of the CCP4 suite and current developments, Acta. Cryst. D67, 235-242.
+Agirre, J., Atanasova, M., Bagdonas, H., Ballard, C. B., Basle, A., 
+Beilsten-Edmands, J., ... and Yamashita, K. (2023). The CCP4 suite:
+integrative software for macromolecular crystallography. Acta Cryst. D79, 449-461.
 
 - STARANISO:
 Tickle, I.J., Flensburg, C., Keller, P., Paciorek, W., Sharff, A., Vonrhein, C.,
-and Bricogne, G. (2018-2021). STARANISO. Cambridge, United Kingdom: Global Phasing Ltd.
+and Bricogne, G. (2018-2025). STARANISO. Cambridge, United Kingdom: Global Phasing Ltd.
+
+- GEMMI:
+Wojdyr, M. (2022). GEMMI: A library for structural biology. 
+Journal of Open Source Software, 7(73), 4200.
 
 - AutoGUI is also using Adxv:
 Arvai, A. Adxv - A Program to Display X-ray Diffraction Images
